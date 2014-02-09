@@ -1,0 +1,10 @@
+- name: NTP | Install
+  apt: pkg=ntp state=installed update_cache=yes
+
+- name: NTP | Configure
+  template: src=ntp/ntp.conf dest=/etc/ntp.conf
+  notify:
+    - restart ntp
+
+- name: NTP | Ensure ntpd is running and enabled
+  service: name=ntp state=started enabled=yes

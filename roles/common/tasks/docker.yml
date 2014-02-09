@@ -1,0 +1,30 @@
+---    
+- name: Docker | Add repo key
+  apt_key: id=A88D21E9 url=https://get.docker.io/gpg state=present
+
+- name: Docker | Add repo
+  apt_repository: repo='deb http://get.docker.io/ubuntu docker main'
+  
+- name: Docker | Install lxc-docker Ubuntu package
+  apt: name=lxc-docker state=installed update-cache=yes
+
+- name: Docker | Install Ansible dependencies for docker module
+  pip: name=docker-py
+
+- name: Docker | Create temp docker build dir
+  file: path={{ docker.build_dir }} state=directory
+
+- name: Docker | Copy Dockerfile and related config files
+  template: src={{ docker.template_dir }}/{{ item }} dest={{ docker.build_dir }}/{{ item }}
+  with_items:
+    - Dockerfile
+    - supervisord.conf
+
+- name: Docker | Copy NTP config file
+  template: src=ntp/ntp.conf dest={{ docker.build_dir }}/ntp.conf
+  
+- name: Docker | Assemble authorized_keys to use in Docker
+  assemble: src={{ ssh.public_keys_dir }} dest={{ docker.build_dir }}/authorized_keys
+  
+- name: Docker | Build docker image
+  command: docker build -t benc/baseimage . chdir={{ docker.build_dir }}

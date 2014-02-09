@@ -1,0 +1,17 @@
+---
+- name: Security | Replace vagrant default (and insecure) public key with the configured users
+  assemble: src={{ ssh.public_keys_dir }} dest=/home/vagrant/.ssh/authorized_keys mode=0600 owner=vagrant
+  
+#- name: Security | Configure and enable ufw{{ user.name }}
+#  command: ufw {{ item }}
+#  with_items:
+#    - default deny
+#    - logging on
+#    - allow ssh/tcp
+#    - allow http/tcp
+#    - allow 443/tcp
+#    - --force enable
+#
+#- name: Security | Set default forward policy to accept
+#  lineinfile: dest=/etc/default/ufw regexp=^DEFAULT_FORWARD_POLICY= line=DEFAULT_FORWARD_POLICY="ACCEPT"
+#  notify: restart ufw

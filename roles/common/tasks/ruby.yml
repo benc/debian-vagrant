@@ -1,0 +1,20 @@
+---    
+- name: Ruby | Add brightbox repository
+  apt_repository: repo='ppa:brightbox/ruby-ng'
+  
+- name: Ruby | Install 2.1
+  apt: name={{ item }} state=installed update-cache=yes
+  with_items:
+    - ruby2.1
+    - rubygems
+    - ruby-switch
+
+- name: Ruby | Switch to 2.1
+  command: ruby-switch --set ruby2.1
+  
+- name: Ruby | Install basic tooling
+  gem: name={{ item }} state=latest
+  with_items:
+    - rake
+    - pry
+    - awesome_print

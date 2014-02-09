@@ -1,0 +1,6 @@
+---
+postgres:
+  template_dir: docker-postgres
+  build_dir: /tmp/docker-postgres
+  data_dir: /data/postgres
+  log_dir: /var/log/postgresql

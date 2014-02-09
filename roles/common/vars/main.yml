@@ -1,0 +1,7 @@
+---
+docker:
+  template_dir: docker-baseimage
+  build_dir: /tmp/docker-baseimage
+ssh:
+  public_keys_dir: /tmp/ssh
+  

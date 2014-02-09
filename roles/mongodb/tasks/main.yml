@@ -1,0 +1,17 @@
+---    
+# TODO typical mongodb setup with 3 nodes
+- name: Create temporary build dir
+  file: path={{ mongodb.build_dir }} state=directory
+
+- name: Copy Dockerfile and related config files
+  template: src={{ mongodb.template_dir }}/{{ item }} dest={{ mongodb.build_dir }}/{{ item }}
+  with_items:
+    - Dockerfile
+    - supervisord.conf
+    - mongod.conf
+
+- name: Create data directory
+  file: path={{ mongodb.data_dir }} state=directory
+    
+- name: Build docker image
+  command: docker build -t benc/mongodb . chdir={{ mongodb.build_dir }}

@@ -1,0 +1,5 @@
+- name: Add the node.js PPA
+  apt_repository: repo=ppa:chris-lea/node.js
+
+- name: Install nodejs
+  apt: name=nodejs state=installed update_cache=yes

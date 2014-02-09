@@ -1,0 +1,51 @@
+---
+- name: Main | Install ansible module dependencies
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - python-pycurl
+    - python-pip
+
+- name: Main | Set Ubuntu mirrors
+  apt_repository: repo='{{ item }}' state=present
+  with_items:
+    - deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse
+    - deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse
+    - deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse
+    - deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse
+
+- name: Main | Install necessities and nice-to-haves
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items:
+    - sudo
+    - vim
+    - htop
+    - iftop
+    - iotop
+    - mosh
+    - zsh
+    - git
+    - screen
+    - ufw
+    - curl
+    - netcat
+    - unzip
+
+- name: Main | Upgrade all safe packages
+  apt: upgrade=safe update_cache=yes
+
+- name: Main | Enable Textmate support
+  get_url: url=https://raw.github.com/aurora/rmate/master/rmate dest=/usr/local/bin/rmate mode=0755
+
+- name: Main | Create ssh temporary storage dir
+  file: path={{ ssh.public_keys_dir }} state=directory
+
+- name: Main | Copy all ssh public keys to enable further processing
+  template: src=ssh/{{ item.name }}.pub dest={{ ssh.public_keys_dir }}/{{ item.name }}.pub
+  with_items: users
+
+- include: nodejs.yml
+- include: ruby.yml
+- include: ntp.yml
+- include: users.yml
+- include: security.yml
+- include: docker.yml

@@ -1,0 +1,7 @@
+---
+- hosts: blog
+  user: vagrant
+
+  tasks:
+  - name: Copy private key
+    copy: src=~/.ssh/id_rsa dest=/home/vagrant/.ssh/id_rsa mode=0600

@@ -1,0 +1,8 @@
+---
+ntp: 0.be.pool.ntp.org
+users:
+  - name: benc
+    email: ben@cochezconsult.be
+    dotfiles: 
+      repo: https://github.com/benc/dotfiles.git
+      install: rake install
