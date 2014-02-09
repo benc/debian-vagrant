@@ -29,8 +29,6 @@ RUN         apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD         nginx.conf /etc/nginx/nginx.conf
 
 # Create mountpoint directory
-#RUN         mkdir -p /www
-#RUN         chown -R www-data:www-data /www
 VOLUME      ["/www"]
 
 # Expose to the world

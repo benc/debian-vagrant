@@ -24,8 +24,7 @@ ADD         postgresql.conf /etc/postgresql/9.3/main/postgresql.conf
 ADD         pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
 
 # Create mountpoint directory
-RUN         mkdir -p {{ postgres.data_dir }}
-RUN         chown -R postgres:postgres {{ postgres.data_dir }}
+VOLUME      ["/data"]
 
 # Expose to the world
 EXPOSE      5432

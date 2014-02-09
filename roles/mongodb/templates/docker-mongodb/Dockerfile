@@ -14,7 +14,7 @@ RUN         apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD         mongod.conf /etc/mongod.conf
 
 # Create mountpoint directory
-RUN         mkdir -p {{ postgres.data_dir }}
+VOLUME      ["/data"]
 
 # Expose to the world
 EXPOSE      27017
