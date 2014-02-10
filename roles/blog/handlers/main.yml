@@ -1,0 +1,7 @@
+---
+- name: Restart blog_engine
+  docker: image=benc/{{ blog_engine.name }} state=restarted
+
+- name: Restart blog_data
+  docker: image=benc/{{ blog_datastore.name }} state=restarted
+

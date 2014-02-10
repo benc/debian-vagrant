@@ -9,3 +9,4 @@ blog_datastore:
   name: blog_data
   template_dir: docker-blog_data
   build_dir: /tmp/docker-blog_data
+  database_name: cochezconsult

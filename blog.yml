@@ -2,6 +2,6 @@
 - hosts: blog
   roles:
     #- { role: mongodb, tags: [ 'mongodb' ] }
-    #- { role: postgres, tags: [ 'postgres' ] }
+    - { role: postgres, tags: [ 'postgres' ] }
     - { role: passenger, tags: [ 'passenger' ] }
     - { role: blog, tags: [ 'blog' ] }

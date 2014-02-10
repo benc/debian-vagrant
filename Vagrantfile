@@ -32,6 +32,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "www.cochezconsult.be" do |host|
     host.vm.network :forwarded_port, guest: 80, host: 30080
     host.vm.network :forwarded_port, guest: 27017, host: 37017
+    host.vm.network :forwarded_port, guest: 5432, host: 35432
   end
 
   config.vm.provision :shell, inline: <<-SCRIPT
@@ -46,6 +47,6 @@ Vagrant.configure("2") do |config|
     ansible.verbose = 'v'
     ansible.inventory_path = "development" # TODO should be determined by the provider
     ansible.limit = 'blog'
-    # ansible.tags = 'blog'
+    ansible.tags = 'postgres'
   end
 end

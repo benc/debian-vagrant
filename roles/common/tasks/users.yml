@@ -13,13 +13,13 @@
 - name: Users | Get zprezto
   git: repo=https://github.com/sorin-ionescu/prezto.git dest=/home/{{ item.name }}/.zprezto
   with_items: users
-
-- name: Users | Install homesick
-  gem: name=homesick state=latest
   
 - name: Users | Get dotfiles
   git: repo="{{ item.dotfiles.repo }}" dest=/home/{{ item.name }}/.dotfiles
   with_items: users
-  
-# TODO change dotfiles install system
-# TODO install dotfiles
+
+# - name: Users | Install dotfiles
+#   sudo_user: {{ item.name }}
+#   command: {{ item.dotfiles.command }} chdir="/home/{{ item.name }}/.dotfiles"
+#   with_items: users
+#   
