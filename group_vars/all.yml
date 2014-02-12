@@ -6,3 +6,15 @@ users:
     dotfiles: 
       repo: https://github.com/benc/dotfiles.git
       install: rake install
+mandrill:
+  host: smtp.mandrillapp.com
+  user: foo@bar.foobar
+  api_key: his_fooness_has_left_the_building
+database:
+  postgres:
+    user: postgres
+    password: postgres
+  ghost:
+    name: ghost
+    user: ghost
+    password: ghost
