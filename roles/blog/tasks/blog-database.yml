@@ -4,8 +4,8 @@
   register: postgres_docker_ip
   
 - name: Blog database | Create database
-  postgresql_db: name=ghost encoding=UTF-8 template=template0 login_host={{ postgres_docker_ip.stdout }} login_password=postgres login_user=postgres state=present
+  postgresql_db: name={{ database.ghost.name }} encoding=UTF-8 template=template0 login_host={{ postgres_docker_ip.stdout }} login_password={{ database.postgres.password }} login_user={{ database.postgres.user }} state=present
 
 - name: Blog database | Create user
-  postgresql_user: name=ghost password=ghost priv=ALL login_password=postgres login_user=postgres state=present
+  postgresql_user: name={{ database.ghost.user }} password={{ database.ghost.password }} db={{ database.ghost.name }} priv=ALL login_password={{ database.postgres.password }} login_user={{ database.postgres.user }} state=present
   

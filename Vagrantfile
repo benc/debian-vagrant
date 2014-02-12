@@ -3,7 +3,7 @@
 # vagrant plugin install vagrant-digitalocean
 #
 require 'yaml'
-settings = YAML.load(IO.read('settings.yml'))
+settings = YAML.load(IO.read('vagrant_secure_settings.yml'))
 
 Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
@@ -57,6 +57,11 @@ Vagrant.configure("2") do |config|
     ansible.limit = 'blog'
     if !ENV['ANSIBLE_TAG'].nil?
       ansible.tags = ENV['ANSIBLE_TAG']
+    end
+    if ENV['ANSIBLE_INVENTORY'].nil?
+      ansible.extra_vars = 'secure_settings/development.yml'
+    else
+      ansible.extra_vars = "secure_settings/#{ENV['ANSIBLE_INVENTORY']}.yml"
     end
   end
 end

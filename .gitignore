@@ -5,3 +5,10 @@
 /npm-debug.log
 
 /settings.yml
+
+/ansible_secure_settings.yml
+/vagrant_secure_settings.yml
+
+/host_vars/production.yml
+
+/secure_settings/

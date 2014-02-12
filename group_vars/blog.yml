@@ -1,5 +1,0 @@
----
-mandrill:
-  host: smtp.mandrillapp.com
-  user: foo@bar.foobar
-  api_key: his_fooness_has_left_the_building
