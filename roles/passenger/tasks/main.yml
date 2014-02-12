@@ -10,4 +10,4 @@
     - nginx.conf
       
 - name: Build Docker image
-  command: docker build -t benc/passenger . chdir={{ passenger.build_dir }}
+  command: docker build -q=true -t=benc/passenger -rm . chdir={{ passenger.build_dir }}

@@ -23,23 +23,23 @@ RUN         apt-get upgrade -y --no-install-recommends
 #######
 # NTP #
 #######
-RUN         apt-get install -y ntp --no-install-recommends
+RUN         apt-get install -y ntp
 ADD         ntp.conf /etc/ntp.conf
 
 #############
 # UTILITIES #
 #############
-RUN         apt-get install -y curl unzip --no-install-recommends
+RUN         apt-get install -y curl unzip
 
 ##########
 # EDITOR #
 ##########
 # vim
-RUN         apt-get install -y vim --no-install-recommends
+RUN         apt-get install -y vim
 
-# rmate - curl sometimes exits with code -1
-# RUN         curl -Lo /usr/local/bin/rmate https://raw.github.com/aurora/rmate/master/rmate
-# RUN         chmod a+x /usr/local/bin/rmate
+# rmate
+RUN         curl -Lo /usr/local/bin/rmate https://raw.github.com/aurora/rmate/master/rmate
+RUN         chmod a+x /usr/local/bin/rmate
 
 ###########
 # OPENSSH #
@@ -50,7 +50,7 @@ RUN         usermod -a -G sudo docker
 
 RUN         mkdir -p /home/docker/.ssh
 
-RUN         apt-get install -y openssh-server --no-install-recommends
+RUN         apt-get install -y openssh-server
 RUN         mkdir -p /var/run/sshd
 
 # Secure the ssh installation

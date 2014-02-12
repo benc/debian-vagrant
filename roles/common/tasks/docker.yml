@@ -27,4 +27,4 @@
   assemble: src={{ ssh.public_keys_dir }} dest={{ docker.build_dir }}/authorized_keys
   
 - name: Docker | Build docker image
-  command: docker build -t benc/baseimage . chdir={{ docker.build_dir }}
+  command: docker build -q=true -t=benc/baseimage -rm . chdir={{ docker.build_dir }}
