@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
   # Build www.cochezconsult.be platform
   config.vm.provider :vmware_fusion do |provider, override|
     override.vm.box_url = 'http://files.vagrantup.com/precise64_vmware.box'
+    provider.vmx["memsize"] = "1024"
     provider.gui = false
   end
  
