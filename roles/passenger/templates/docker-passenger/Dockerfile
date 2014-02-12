@@ -5,7 +5,7 @@ MAINTAINER  Ben Cochez, ben@cochezconsult.be
 # NODE #
 ########
 # Add node apt repo
-RUN         apt-get -y install python-software-properties
+RUN         apt-get -y install python-software-properties software-properties-common
 RUN         add-apt-repository -y ppa:chris-lea/node.js
 RUN         apt-get -y update
 

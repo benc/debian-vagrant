@@ -19,6 +19,7 @@
   with_items:
     - Dockerfile
     - supervisord.conf
+  register: docker_baseimage
 
 - name: Docker | Copy NTP config file
   template: src=ntp/ntp.conf dest={{ docker.build_dir }}/ntp.conf
@@ -27,4 +28,5 @@
   assemble: src={{ ssh.public_keys_dir }} dest={{ docker.build_dir }}/authorized_keys
   
 - name: Docker | Build docker image
-  command: docker build -q=true -t=benc/baseimage -rm . chdir={{ docker.build_dir }}
+  command: docker build -q=true -t=benc/baseimage . chdir={{ docker.build_dir }}
+  when: docker_baseimage|changed
