@@ -9,7 +9,6 @@
   with_items:
     - Dockerfile
     - www.cochezconsult.be.conf
-    - config.js
 
 - name: Blog engine | Build Docker image
   command: docker build -q=true -t=benc/{{ blog_engine.name }} . chdir={{ blog_engine.build_dir }}
@@ -25,7 +24,10 @@
 
 - name: Blog engine | Install modules
   sudo_user: vagrant
-  npm: path={{ blog_engine.web_dir }}
+  npm: path={{ blog_engine.web_dir }} production=yes
+
+- name: Blog engine | Copy config file
+  template: src=ghost/config.js dest={{ blog_engine.web_dir }}/config.js owner=www-data group=www-data mode=0644
 
 - name: Blog engine | Transfer authority to www-data
   command: chown -R www-data:www-data {{ blog_engine.web_dir }}
