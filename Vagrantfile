@@ -10,6 +10,11 @@ Vagrant.configure("2") do |config|
   config.ssh.private_key_path = ["#{ENV['HOME']}/.ssh/id_rsa","#{ENV['HOME']}/.vagrant.d/insecure_private_key"]
 
   # Build www.cochezconsult.be platform
+  config.vm.provider :vmware_fusion do |provider, override|
+    override.vm.box_url = 'http://files.vagrantup.com/precise64_vmware.box'
+    provider.gui = false
+  end
+ 
   config.vm.provider :virtualbox do |provider, override|
     override.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
     provider.customize ["modifyvm", :id, "--memory", 1024]
@@ -28,7 +33,7 @@ Vagrant.configure("2") do |config|
     provider.region = settings['digital_ocean']['machines']['defaults']['region']
     provider.name = "www.cochezconsult.be"
   end
-
+  
   config.vm.define "www.cochezconsult.be" do |host|
     host.vm.network :forwarded_port, guest: 80, host: 30080
     host.vm.network :forwarded_port, guest: 27017, host: 37017
@@ -47,6 +52,6 @@ Vagrant.configure("2") do |config|
     ansible.verbose = 'v'
     ansible.inventory_path = "development" # TODO should be determined by the provider
     ansible.limit = 'blog'
-    ansible.tags = 'postgres'
+    ansible.tags = 'blog'
   end
 end
