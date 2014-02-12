@@ -10,23 +10,28 @@
 
 - name: Docker | Install Ansible dependencies for docker module
   pip: name=docker-py
-
+  
 - name: Docker | Create temp docker build dir
   file: path={{ docker.build_dir }} state=directory
-
-- name: Docker | Copy Dockerfile and related config files
-  template: src={{ docker.template_dir }}/{{ item }} dest={{ docker.build_dir }}/{{ item }}
-  with_items:
-    - Dockerfile
-    - supervisord.conf
-  register: docker_baseimage
-
+    
 - name: Docker | Copy NTP config file
   template: src=ntp/ntp.conf dest={{ docker.build_dir }}/ntp.conf
   
 - name: Docker | Assemble authorized_keys to use in Docker
   assemble: src={{ ssh.public_keys_dir }} dest={{ docker.build_dir }}/authorized_keys
-  
+
+- name: Docker | Copy utility scripts
+  copy: src=docker/{{ item }}.sh dest=/usr/bin/{{ item }} mode=0755
+  with_items:
+    - get_ip_for_process
+
+- name: Docker | Copy Dockerfile and related config files  
+  template: src={{ docker.template_dir }}/{{ item }} dest={{ docker.build_dir }}/{{ item }}
+  with_items:
+    - Dockerfile
+    - supervisord.conf
+  register: docker_baseimage
+    
 - name: Docker | Build docker image
   command: docker build -q=true -t=benc/baseimage . chdir={{ docker.build_dir }}
   when: docker_baseimage|changed

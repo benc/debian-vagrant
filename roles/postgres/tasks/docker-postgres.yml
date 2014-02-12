@@ -1,0 +1,21 @@
+---
+- name: Database | Create temporary build dir
+  file: path={{ postgres.docker.build_dir }} state=directory
+
+- name: Database | Copy Dockerfile and related config files
+  template: src={{ postgres.docker.template_dir }}/{{ item }} dest={{ postgres.docker.build_dir }}/{{ item }}
+  with_items:
+    - Dockerfile
+    - postgresql.conf
+    - pg_hba.conf
+    - supervisord.conf
+    - start_postgres.sh
+  register: docker_postgres
+      
+- name: Database | Build Docker image
+  command: docker build -q=true -t=benc/postgres . chdir={{ postgres.docker.build_dir }}
+  when: docker_postgres|changed
+    
+- name: Database | Start
+  command: docker run -name postgres -d -p 5432:5432 -volumes-from postgres_data -e POSTGRES_USER={{ postgres.user }} -e POSTGRES_PASSWORD={{ postgres.password }} benc/postgres
+  when: docker_postgres|changed

@@ -1,0 +1,11 @@
+---
+- name: Blog database | Get Postgres Docker IP
+  command: get_ip_for_process postgres
+  register: postgres_docker_ip
+  
+- name: Blog database | Create database
+  postgresql_db: name=ghost encoding=UTF-8 template=template0 login_host={{ postgres_docker_ip.stdout }} login_password=postgres login_user=postgres state=present
+
+- name: Blog database | Create user
+  postgresql_user: name=ghost password=ghost priv=ALL login_password=postgres login_user=postgres state=present
+  

@@ -1,0 +1,35 @@
+- name: Blog engine | Create web directory
+  file: path={{ blog_engine.web_dir }} state=directory owner=www-data group=www-data mode=0755
+
+- name: Blog engine | Create temporary build dir
+  file: path={{ blog_engine.build_dir }} state=directory
+
+- name: Blog engine | Copy Dockerfile and related config files
+  template: src={{ blog_engine.template_dir }}/{{ item }} dest={{ blog_engine.build_dir }}/{{ item }}
+  with_items:
+    - Dockerfile
+    - www.cochezconsult.be.conf
+    - config.js
+
+- name: Blog engine | Build Docker image
+  command: docker build -q=true -t=benc/{{ blog_engine.name }} . chdir={{ blog_engine.build_dir }}
+
+- name: Blog engine | Get latest Ghost
+  get_url: url=https://ghost.org/zip/ghost-latest.zip dest=/tmp/ghost.zip mode=0644
+
+- name: Blog engine | Unpack
+  command: unzip -uo ghost.zip -d {{ blog_engine.web_dir }} chdir=/tmp
+
+- name: Blog engine | Transfer authority to vagrant # or npm won't work due to a sqlite install issue
+  command: chown -R vagrant:vagrant {{ blog_engine.web_dir }}
+
+- name: Blog engine | Install modules
+  sudo_user: vagrant
+  npm: path={{ blog_engine.web_dir }}
+
+- name: Blog engine | Transfer authority to www-data
+  command: chown -R www-data:www-data {{ blog_engine.web_dir }}
+
+- name: Blog engine | Restart passenger
+  sudo_user: www-data
+  command: touch {{ blog_engine.web_dir }}/restart.txt

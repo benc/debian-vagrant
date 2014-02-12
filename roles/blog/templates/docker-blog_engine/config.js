@@ -27,9 +27,13 @@ config = {
         // ```
 
         database: {
-            client: 'sqlite3',
+            client: 'pg',
             connection: {
-                filename: path.join(__dirname, '/content/data/ghost-dev.db')
+                host     : process.env.DB_PORT_5432_TCP_ADDR,
+                user     : 'ghost',
+                password : 'ghost',
+                database : 'ghost',
+                charset  : 'utf8'
             },
             debug: false
         },
@@ -55,6 +59,14 @@ config = {
             connection: {
                 filename: path.join(__dirname, '/content/data/ghost.db')
             },
+            // client: 'pg',
+            // connection: {
+            //     host     : process.env.DB_PORT_5432_TCP_ADDR,
+            //     user     : 'ghost',
+            //     password : 'ghost',
+            //     database : 'ghost',
+            //     charset  : 'utf8'
+            // },
             debug: false
         },
         server: {

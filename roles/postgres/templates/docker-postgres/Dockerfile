@@ -37,10 +37,10 @@ RUN         mkdir /etc/ssl/private-copy; \
             chmod -R 0700 /etc/ssl/private;  \
             chown -R postgres /etc/ssl/private
 
-ADD         postgresql.conf {{ postgres.conf_dir }}/postgresql.conf && \
-            chown -R postgres:postgres {{ postgres.conf_dir }}/postgresql.conf
-ADD         pg_hba.conf {{ postgres.conf_dir }}/pg_hba.conf && \
-            chown -R postgres:postgres {{ postgres.conf_dir }}/pg_hba.conf
+ADD         postgresql.conf {{ postgres.conf_dir }}/postgresql.conf
+RUN         chown -R postgres:postgres {{ postgres.conf_dir }}/postgresql.conf
+ADD         pg_hba.conf {{ postgres.conf_dir }}/pg_hba.conf
+RUN         chown -R postgres:postgres {{ postgres.conf_dir }}/pg_hba.conf
 
 # Expose to the world
 EXPOSE      5432
