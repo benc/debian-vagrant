@@ -30,6 +30,22 @@
     - netcat
     - unzip
 
+# Docker needs a newer kernel
+- name: Main | Install backported raring kernel 
+  apt: pkg=linux-image-generic-lts-raring state=installed update_cache=yes
+  register: kernel 
+- name: Main | Reboot after kernel upgrade
+  action: command /sbin/reboot 
+  when: kernel|changed
+- name: Main | Wait for system shutdown...
+  sudo: false
+  local_action: wait_for host={{ ansible_fqdn }} port={{ ansible_ssh_port }} state=stopped
+  when: kernel|changed
+- name: Main | Wait until the system has restarted...
+  sudo: false
+  local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} state=started
+  when: kernel|changed
+  
 - name: Main | Upgrade all safe packages
   apt: upgrade=safe update_cache=yes
 
