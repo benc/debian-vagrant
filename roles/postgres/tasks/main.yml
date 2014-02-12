@@ -1,8 +1,8 @@
 ---
-- name: Create temporary build dir
+- name: Data only container | Create temporary build dir
   file: path={{ postgres.docker.build_dir }} state=directory
 
-- name: Copy Dockerfile and related config files
+- name: Data only container | Copy Dockerfile and related config files
   template: src={{ postgres.docker.template_dir }}/{{ item }} dest={{ postgres.docker.build_dir }}/{{ item }}
   with_items:
     - Dockerfile
@@ -10,29 +10,29 @@
     - pg_hba.conf
     - supervisord.conf
     - start_postgres.sh
+  register: docker_postgres_data
       
-- name: Build Docker image
-  command: docker build -q=true -t=benc/postgres -rm . chdir={{ postgres.docker.build_dir }}
+- name: Data only container | Build Docker image
+  command: docker build -q=true -t=benc/postgres_data . chdir={{ postgres.docker.build_dir }}
+  when: docker_postgres_data|changed
 
-- name: Create temporary build dir
+- name: Data only container | Start
+  command: docker run -name postgres_data -v /data -d benc/postgres_data
+  when: docker_postgres_data|changed
+
+- name: Database | Create temporary build dir
   file: path={{ postgres.data_docker.build_dir }} state=directory
 
-- name: Copy Dockerfile and related config files
+- name: Database | Copy Dockerfile and related config files
   template: src={{ postgres.data_docker.template_dir }}/{{ item }} dest={{ postgres.data_docker.build_dir }}/{{ item }}
   with_items:
     - Dockerfile
+  register: docker_postgres
       
-- name: Build Docker image
-  command: docker build -q=true -t=benc/postgres_data -rm . chdir={{ postgres.data_docker.build_dir }}
-
-#- name: Stop data only container
-#  command: docker stop postgres_data
-#  
-#- name: Stop postgres docker instance
-#  command: docker stop postgres
-
-- name: Start data only container
-  command: docker run -name postgres_data -v /data -d benc/postgres_data
-  
-- name: Start postgres docker instance
-  command: docker run -name postgres -d -p 5432:5432 -volumes-from postgres_data -e POSTGRES_USER={{ postgres.user }} -e POSTGRES_PASSWORD={{ postgres.password }} benc/postgres
+- name: Database | Build Docker image
+  command: docker build -q=true -t=benc/postgres . chdir={{ postgres.data_docker.build_dir }}
+  when: docker_postgres|changed
+    
+- name: Database | Start
+  command: docker run -name postgres -d -volumes-from postgres_data -e POSTGRES_USER={{ postgres.user }} -e POSTGRES_PASSWORD={{ postgres.password }} benc/postgres
+  when: docker_postgres|changed
