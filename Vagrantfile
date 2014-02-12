@@ -50,8 +50,14 @@ Vagrant.configure("2") do |config|
     ansible.sudo = true
     ansible.host_key_checking = false
     ansible.verbose = 'v'
-    ansible.inventory_path = "development" # TODO should be determined by the provider
+    if ENV['ANSIBLE_INVENTORY'].nil?
+      ansible.inventory_path = "development"
+    else
+      ansible.inventory_path = ENV['ANSIBLE_INVENTORY']
+    end
     ansible.limit = 'blog'
-    ansible.tags = 'blog'
+    if !ENV['ANSIBLE_TAG'].nil?
+      ansible.tags = ENV['ANSIBLE_TAG']
+    end
   end
 end
