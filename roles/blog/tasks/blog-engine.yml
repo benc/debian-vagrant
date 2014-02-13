@@ -25,6 +25,10 @@
 - name: Blog engine | Install modules
   sudo_user: vagrant
   npm: path={{ blog_engine.web_dir }} production=yes
+  
+- name: Blog engine | Install pg module
+  sudo_user: vagrant
+  npm: name=pg path={{ blog_engine.web_dir }} production=yes
 
 - name: Blog engine | Copy config file
   template: src=ghost/config.js dest={{ blog_engine.web_dir }}/config.js owner=www-data group=www-data mode=0644

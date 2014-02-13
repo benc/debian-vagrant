@@ -12,6 +12,18 @@ RUN         apt-get -y update
 # Install node
 RUN         apt-get install -y nodejs
 
+##########################
+# POSTGRES NATIVE CLIENT #
+##########################
+# Add apt repo
+RUN         apt-get -y install python-software-properties software-properties-common wget
+RUN         wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN         echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN         apt-get -y update
+
+# Install postgres library
+RUN         apt-get install -y libpq-dev postgresql-client-common postgresql-client-9.3
+
 #############
 # PASSENGER #
 #############
