@@ -4,5 +4,4 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-docker_id=$(docker ps | grep "  $1  " | awk '{print $1}')
-sudo docker inspect -format '{{ .NetworkSettings.IPAddress }}' $docker_id
+sudo docker inspect -format '{{ .NetworkSettings.IPAddress }}' $1
