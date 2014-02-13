@@ -12,3 +12,5 @@
 /host_vars/production.yml
 
 /secure_settings/
+
+/production
