@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
     provider.name = "www.cochezconsult.be"
   end
   
-  config.vm.define "www.cochezconsult.be" do |host|
+  config.vm.define "blog" do |host|
     host.vm.network :forwarded_port, guest: 80, host: 30080
   end
 
