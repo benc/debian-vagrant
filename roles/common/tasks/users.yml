@@ -3,7 +3,7 @@
   with_items: users
   
 - name: Users | Configure SSH for created users
-  file: path=/home/{{ item.name }}/.ssh state=directory mode=0700
+  file: path=/home/{{ item.name }}/.ssh state=directory mode=0700 owner={{ item.name }}
   with_items: users
 
 - name: Users | Add authorized_keys for created users
