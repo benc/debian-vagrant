@@ -32,5 +32,5 @@
     - supervisord.conf
     
 - name: Docker | Build docker image
-  command: docker build -q=true -t=benc/baseimage . chdir={{ docker.build_dir }}
+  command: docker build -q=true -t=benc/baseimage -rm . chdir={{ docker.build_dir }}
   

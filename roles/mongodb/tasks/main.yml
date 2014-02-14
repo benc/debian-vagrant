@@ -15,5 +15,5 @@
   file: path={{ mongodb.data_dir }} state=directory
     
 - name: Build docker image
-  command: docker build -q=true -t=benc/mongodb . chdir={{ mongodb.build_dir }}
+  command: docker build -q=true -t=benc/mongodb -rm . chdir={{ mongodb.build_dir }}
   when: docker_mongodb|changed
