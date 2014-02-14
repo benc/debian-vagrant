@@ -1,7 +1,6 @@
 ---
 domain: www.cochezconsult.be
 blog_engine:
-  name: blog_engine
   template_dir: docker-blog_engine
   build_dir: /tmp/docker-blog_engine
   web_dir: /www/{{ domain }}

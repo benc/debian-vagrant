@@ -11,7 +11,7 @@
     - www.cochezconsult.be.conf
 
 - name: Blog engine | Build Docker image
-  command: docker build -q=true -t=benc/{{ blog_engine.name }} -rm . chdir={{ blog_engine.build_dir }}
+  command: docker build -q=true -t=benc/blog_engine -rm . chdir={{ blog_engine.build_dir }}
 
 - name: Blog engine | Get latest Ghost
   get_url: url=https://ghost.org/zip/ghost-latest.zip dest=/tmp/ghost.zip mode=0644
@@ -36,6 +36,16 @@
 - name: Blog engine | Transfer authority to www-data
   command: chown -R www-data:www-data {{ blog_engine.web_dir }}
 
-- name: Blog engine | Restart passenger
-  sudo_user: www-data
-  command: touch {{ blog_engine.web_dir }}/restart.txt
+#- name: Blog engine | Restart passenger
+#  sudo_user: www-data
+#  command: touch {{ blog_engine.web_dir }}/restart.txt
+
+- name: Blog engine | Check if it is already running
+  command: docker inspect blog_engine
+  register: docker_inspect_blog_engine
+  ignore_errors: yes
+  
+- name: Start blog_engine instance
+  # docker: name=blog_engine links=postgres:db ports=:80 volumes={{ blog_engine.web_dir }}:/www:rw detach=true image=benc/blog_engine
+  command: docker run -name blog_engine -link postgres:db -p 80:80 -v {{ blog_engine.web_dir }}:/www:rw -d benc/blog_engine
+  when: "'No such image or container' in docker_inspect_blog_engine.stderr"
