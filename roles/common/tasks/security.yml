@@ -1,6 +1,7 @@
 ---
 - name: Security | Replace vagrant default (and insecure) public key with the configured users
   assemble: src={{ ssh.public_keys_dir }} dest=/home/vagrant/.ssh/authorized_keys mode=0600 owner=vagrant
+  when: ansible_ssh_user == 'vagrant'
   
 #- name: Security | Configure and enable ufw{{ user.name }}
 #  command: ufw {{ item }}
