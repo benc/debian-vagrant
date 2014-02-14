@@ -36,10 +36,6 @@
 - name: Blog engine | Transfer authority to www-data
   command: chown -R www-data:www-data {{ blog_engine.web_dir }}
 
-#- name: Blog engine | Restart passenger
-#  sudo_user: www-data
-#  command: touch {{ blog_engine.web_dir }}/restart.txt
-
 - name: Blog engine | Check if it is already running
   command: docker inspect blog_engine
   register: docker_inspect_blog_engine
