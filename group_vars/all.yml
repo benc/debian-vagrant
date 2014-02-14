@@ -5,7 +5,7 @@ users:
     email: ben@cochezconsult.be
     dotfiles: 
       repo: https://github.com/benc/dotfiles.git
-      install: rake install
+      install_command: rake install
 mandrill:
   host: smtp.mandrillapp.com
   user: foo@bar.foobar

@@ -18,8 +18,8 @@
   git: repo="{{ item.dotfiles.repo }}" dest=/home/{{ item.name }}/.dotfiles
   with_items: users
 
-# - name: Users | Install dotfiles
-#   sudo_user: {{ item.name }}
-#   command: {{ item.dotfiles.command }} chdir="/home/{{ item.name }}/.dotfiles"
-#   with_items: users
-#   
+- name: Users | Install dotfiles
+  sudo_user: "{{ item.name }}"
+  command: "{{ item.dotfiles.install_command }} chdir=/home/{{ item.name }}/.dotfiles"
+  with_items: users
+ 
