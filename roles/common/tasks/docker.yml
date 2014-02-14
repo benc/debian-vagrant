@@ -30,8 +30,7 @@
   with_items:
     - Dockerfile
     - supervisord.conf
-  register: docker_baseimage
     
 - name: Docker | Build docker image
   command: docker build -q=true -t=benc/baseimage . chdir={{ docker.build_dir }}
-  when: docker_baseimage|changed
+  

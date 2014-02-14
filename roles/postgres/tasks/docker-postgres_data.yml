@@ -6,12 +6,9 @@
   template: src={{ postgres.data_docker.template_dir }}/{{ item }} dest={{ postgres.data_docker.build_dir }}/{{ item }}
   with_items:
     - Dockerfile
-  register: docker_postgres_data
       
 - name: Data only container | Build Docker image
   command: docker build -q=true -t=benc/postgres_data . chdir={{ postgres.data_docker.build_dir }}
-  when: docker_postgres_data|changed
 
 - name: Data only container | Start
-  command: docker run -name postgres_data -v /data -d benc/postgres_data
-  when: docker_postgres_data|changed
+  docker: name=postgres_data detach=true image=benc/postgres_data

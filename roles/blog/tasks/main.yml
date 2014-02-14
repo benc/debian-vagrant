@@ -2,11 +2,5 @@
 - include: blog-database.yml
 - include: blog-engine.yml
 
-- name: Get current running Docker instances
-  command: docker ps -a
-  register: docker_processes
-
 - name: Start blog_engine instance
-  command: docker run -name {{ blog_engine.name }} -link postgres:db -p 80:80 -v {{ blog_engine.web_dir }}:/www:rw -d benc/{{ blog_engine.name }}
-  when: not '{{ blog_engine.name }}' in docker_processes.stdout
- 
+  docker: name={{ blog_engine.name }} links=postgres:db ports=:80 volumes={{ blog_engine.web_dir }}:/www:rw detach=true image=benc/{{ blog_engine.name }}

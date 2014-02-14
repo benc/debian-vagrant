@@ -10,12 +10,13 @@
     - pg_hba.conf
     - supervisord.conf
     - start_postgres.sh
-  register: docker_postgres
       
 - name: Database | Build Docker image
   command: docker build -q=true -t=benc/postgres . chdir={{ postgres.docker.build_dir }}
-  when: docker_postgres|changed
     
+- name: Get current running Docker instances
+  command: docker ps -a
+  register: docker_processes
+      
 - name: Database | Start
-  command: docker run -name postgres -d -p 5432:5432 -volumes-from postgres_data -e POSTGRES_USER={{ database.postgres.user }} -e POSTGRES_PASSWORD={{ database.postgres.password }} benc/postgres
-  when: docker_postgres|changed
+  docker: name=postgres detach=true ports=:5432 volumes_from=postgres_data image=benc/postgres env="POSTGRES_USER={{ database.postgres.user }},POSTGRES_PASSWORD={{ database.postgres.password }}"
