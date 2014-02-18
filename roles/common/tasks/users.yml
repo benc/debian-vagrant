@@ -1,5 +1,5 @@
 - name: Users | Create user accounts
-  user: name={{ item.name }} state=present shell=/usr/bin/zsh groups=sudo createhome=yes
+  user: name={{ item.name }} password={{ item.password }} state=present shell=/usr/bin/zsh groups=sudo createhome=yes
   with_items: users
   
 - name: Users | Configure SSH for created users

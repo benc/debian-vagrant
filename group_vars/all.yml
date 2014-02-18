@@ -2,6 +2,7 @@
 ntp: 0.be.pool.ntp.org
 users:
   - name: benc
+    password: benc
     email: ben@cochezconsult.be
     dotfiles: 
       repo: https://github.com/benc/dotfiles.git
@@ -13,8 +14,8 @@ mandrill:
 database:
   postgres:
     user: postgres
-    password: postgres
+    password: e8a48653851e28c69d0506508fb27fc5
   ghost:
     name: ghost
     user: ghost
-    password: ghost
+    password: 71144850f4fb4cc55fc0ee6935badddf
