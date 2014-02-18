@@ -1,17 +1,36 @@
----    
-- name: Ruby | Add brightbox repository
-  apt_repository: repo='ppa:brightbox/ruby-ng'
-  
-- name: Ruby | Install 2.1
-  apt: name={{ item }} state=installed update-cache=yes
+---
+- name: Install rbenv dependencies
+  apt: update_cache=yes pkg={{ item }} state=present
   with_items:
-    - ruby2.1
-    - rubygems
-    - ruby-switch
+    - git-core
+    - build-essential
 
-- name: Ruby | Switch to 2.1
-  command: ruby-switch --set ruby2.1
+- name: Install rbenv globally
+  git: repo=git://github.com/sstephenson/rbenv.git dest=/usr/local/rbenv
+
+- name: Get ruby-build
+  git: repo=git://github.com/sstephenson/ruby-build.git dest=/tmp/ruby-build
+
+- name: Install ruby-build globally
+  command: ./install.sh chdir=/tmp/ruby-build/ creates=/usr/local/bin/ruby-build
   
+- name: Configure rbenv for global use
+  template: src=rbenv/rbenv.sh dest=/etc/profile.d/rbenv.sh mode=0755
+
+- name: Install rubies
+  shell: RBENV_ROOT=/usr/local/rbenv /usr/local/rbenv/bin/rbenv install {{ item }} -f creates=/usr/local/rbenv/versions/{{ item }}/bin/ruby
+  with_items:
+    #- 1.9.3-p484
+    #- 1.9.2-p290
+    #- 1.8.7-p370
+    - 2.1.0
+    
+- name: Enable ruby 2.1.0 as global version
+  shell: RBENV_ROOT=/usr/local/rbenv /usr/local/rbenv/bin/rbenv global 2.1.0
+
+- name: Rehash
+  command: /usr/local/rbenv/bin/rbenv rehash
+
 - name: Ruby | Install basic tooling
   gem: name={{ item }} state=latest
   with_items:
