@@ -8,8 +8,6 @@
     - Dockerfile
     - supervisord.conf
     - nginx.conf
-  register: docker_passenger
       
 - name: Build Docker image
   command: docker build -q=true -t=benc/passenger -rm . chdir={{ passenger.build_dir }}
-  when: docker_passenger|changed

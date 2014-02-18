@@ -3,23 +3,27 @@
   with_items: users
   
 - name: Users | Configure SSH for created users
-  file: path=/home/{{ item.name }}/.ssh state=directory mode=0700 owner={{ item.name }}
+  file: path=/home/{{ item.name }}/.ssh state=directory mode=0700 owner={{ item.name }} group={{ item.name }}
   with_items: users
 
 - name: Users | Add authorized_keys for created users
-  template: src=ssh/{{ item.name }}.pub dest=/home/{{ item.name }}/.ssh/authorized_keys mode=0600 owner={{ item.name }}
+  template: src=ssh/{{ item.name }}.pub dest=/home/{{ item.name }}/.ssh/authorized_keys mode=0600 owner={{ item.name }} group={{ item.name }}
   with_items: users
 
 - name: Users | Get zprezto
   git: repo=https://github.com/sorin-ionescu/prezto.git dest=/home/{{ item.name }}/.zprezto
+  sudo_user: "{{ item.name }}"
   with_items: users
   
 - name: Users | Get dotfiles
   git: repo="{{ item.dotfiles.repo }}" dest=/home/{{ item.name }}/.dotfiles
+  sudo_user: "{{ item.name }}"
   with_items: users
 
 - name: Users | Install dotfiles
-  sudo_user: "{{ item.name }}"
   command: "{{ item.dotfiles.install_command }} chdir=/home/{{ item.name }}/.dotfiles"
+  sudo_user: "{{ item.name }}"
+  environment:
+    PATH: /usr/local/rbenv/bin:/usr/local/rbenv/shims:{{ ansible_env.PATH }}
   with_items: users
- 
+  

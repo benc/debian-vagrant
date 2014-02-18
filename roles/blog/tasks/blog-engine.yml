@@ -19,22 +19,22 @@
 - name: Blog engine | Unpack
   command: unzip -uo ghost.zip -d {{ blog_engine.web_dir }} chdir=/tmp
 
-- name: Blog engine | Transfer authority to vagrant # or npm won't work due to a sqlite install issue
-  command: chown -R vagrant:vagrant {{ blog_engine.web_dir }}
+- name: Blog engine | Transfer authority to benc
+  command: chown -R benc:benc {{ blog_engine.web_dir }}
 
-- name: Blog engine | Install modules
-  sudo_user: vagrant
+- name: Blog engine | Install modules # NOTE: npm won't work as root - sqlite does not install
+  sudo_user: benc
   npm: path={{ blog_engine.web_dir }} production=yes
   
 - name: Blog engine | Install pg module
-  sudo_user: vagrant
+  sudo_user: benc
   npm: name=pg path={{ blog_engine.web_dir }} production=yes
-
-- name: Blog engine | Copy config file
-  template: src=ghost/config.js dest={{ blog_engine.web_dir }}/config.js owner=www-data group=www-data mode=0644
 
 - name: Blog engine | Transfer authority to www-data
   command: chown -R www-data:www-data {{ blog_engine.web_dir }}
+  
+- name: Blog engine | Copy config file
+  template: src=ghost/config.js dest={{ blog_engine.web_dir }}/config.js owner=www-data group=www-data mode=0644
 
 - name: Blog engine | Check if it is already running
   command: docker inspect blog_engine
