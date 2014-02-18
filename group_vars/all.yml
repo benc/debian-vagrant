@@ -19,3 +19,6 @@ database:
     name: ghost
     user: ghost
     password: 71144850f4fb4cc55fc0ee6935badddf
+docker:
+  user: docker
+  password: 05b6053c41a2130afd6fc3b158bda4e6

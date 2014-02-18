@@ -44,9 +44,8 @@ RUN         chmod a+x /usr/local/bin/rmate
 ###########
 # OPENSSH #
 ###########
-RUN         adduser --disabled-password --gecos "" docker
-RUN         echo 'docker:docker' | chpasswd
-RUN         usermod -a -G sudo docker
+RUN         adduser --disabled-password --gecos "" {{ docker.username }}
+RUN         usermod -a -G sudo docker -p {{ docker.password }}
 
 RUN         mkdir -p /home/docker/.ssh
 
