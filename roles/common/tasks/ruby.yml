@@ -1,23 +1,31 @@
 ---
-- name: Install rbenv dependencies
+- name: Ruby | Install rbenv dependencies
   apt: update_cache=yes pkg={{ item }} state=present
   with_items:
     - git-core
     - build-essential
+    - autoconf 
+    - bison 
+    - libssl-dev 
+    - libyaml-dev 
+    - libreadline6 
+    - libreadline6-dev 
+    - zlib1g 
+    - zlib1g-dev
 
-- name: Install rbenv globally
+- name: Ruby | Install rbenv
   git: repo=git://github.com/sstephenson/rbenv.git dest=/usr/local/rbenv
 
-- name: Get ruby-build
+- name: Ruby | Get ruby-build
   git: repo=git://github.com/sstephenson/ruby-build.git dest=/tmp/ruby-build
 
-- name: Install ruby-build globally
+- name: Ruby | Install ruby-build
   command: ./install.sh chdir=/tmp/ruby-build/ creates=/usr/local/bin/ruby-build
   
-- name: Configure rbenv for global use
+- name: Ruby | Configure rbenv for global use
   template: src=rbenv/rbenv.sh dest=/etc/profile.d/rbenv.sh mode=0755
 
-- name: Install rubies
+- name: Ruby | Install rubies
   shell: RBENV_ROOT=/usr/local/rbenv /usr/local/rbenv/bin/rbenv install {{ item }} -f creates=/usr/local/rbenv/versions/{{ item }}/bin/ruby
   with_items:
     #- 1.9.3-p484
@@ -25,15 +33,16 @@
     #- 1.8.7-p370
     - 2.1.0
     
-- name: Enable ruby 2.1.0 as global version
+- name: Ruby | Enable ruby 2.1.0 as global version
   shell: RBENV_ROOT=/usr/local/rbenv /usr/local/rbenv/bin/rbenv global 2.1.0
 
-- name: Rehash
+- name: Ruby | Rehash
   command: /usr/local/rbenv/bin/rbenv rehash
 
 - name: Ruby | Install basic tooling
-  gem: name={{ item }} state=latest
+  gem: name={{ item }} state=latest executable=/usr/local/rbenv/shims/gem
   with_items:
     - rake
+    - bundler
     - pry
     - awesome_print
