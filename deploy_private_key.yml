@@ -1,7 +1,6 @@
 ---
 - hosts: blog
-  user: vagrant
 
   tasks:
   - name: Copy private key
-    copy: src=~/.ssh/id_rsa dest=/home/vagrant/.ssh/id_rsa mode=0600
+    copy: src=~/.ssh/id_rsa dest=/home/{{ ansible_ssh_user }}/.ssh/id_rsa mode=0600
