@@ -21,7 +21,7 @@
   assemble: src={{ ssh.public_keys_dir }} dest={{ docker.build_dir }}/authorized_keys
 
 - name: Docker | Copy utility scripts
-  copy: src=docker/{{ item }}.sh dest=/usr/bin/{{ item }} mode=0755
+  copy: src=docker/{{ item }}.sh dest=/usr/local/bin/{{ item }} mode=0755
   with_items:
     - get_ip_for_process
 
