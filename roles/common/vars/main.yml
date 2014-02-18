@@ -1,5 +1,5 @@
 ---
-docker:
+docker_base:
   template_dir: docker-baseimage
   build_dir: /tmp/docker-baseimage
 ssh:
