@@ -58,9 +58,7 @@ Vagrant.configure("2") do |config|
     if !ENV['ANSIBLE_TAG'].nil?
       ansible.tags = ENV['ANSIBLE_TAG']
     end
-    if ENV['ANSIBLE_INVENTORY'].nil?
-      ansible.extra_vars = 'secure_settings/development.yml'
-    else
+    unless ENV['ANSIBLE_INVENTORY'].nil?
       ansible.extra_vars = "secure_settings/#{ENV['ANSIBLE_INVENTORY']}.yml"
     end
   end
