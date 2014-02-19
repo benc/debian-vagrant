@@ -1,4 +1,13 @@
 ---
+# NOTE:
+# ----
+# These are development passwords. Production machines should be provisioned with different settings:
+# * Copy this yaml to a file 'production.yml' in your ansible root directory
+# * Modify the passwords
+# * Provide this file when running the playbooks against production:
+#  
+#       ansible-playbook -i production site.yml --extra-vars "@production.yml"
+#
 ntp: 0.be.pool.ntp.org
 users:
   - name: benc
@@ -14,11 +23,14 @@ mandrill:
 database:
   postgres:
     user: postgres
+    # md5 -s postgres
     password: e8a48653851e28c69d0506508fb27fc5
   ghost:
     name: ghost
     user: ghost
+    # md5 -s ghost
     password: 71144850f4fb4cc55fc0ee6935badddf
 docker:
   user: docker
-  password: 05b6053c41a2130afd6fc3b158bda4e6
+  # echo docker | openssl passwd -crypt -stdin
+  password: YGB0OKUWgPEsE
