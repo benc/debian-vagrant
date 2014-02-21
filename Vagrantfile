@@ -11,8 +11,10 @@ Vagrant.configure("2") do |config|
 
   # Build www.cochezconsult.be platform
   config.vm.provider :vmware_fusion do |provider, override|
-    override.vm.box_url = 'http://files.vagrantup.com/precise64_vmware.box'
+    override.vm.box_url = 'https://dl.dropboxusercontent.com/s/0mzwv0gxpvpbkqv/ubuntu1204.box?dl=1&token_hash=AAHs5RtYBqWLD9_cU1sWXVIFp5blLd5eu9mj2D2uNggVlg'
     provider.vmx["memsize"] = "1024"
+    provider.vmx["mks.enable3d"] = "FALSE"
+    provider.vmx["mks.vsync"] = "1"
     provider.gui = false
   end
  
