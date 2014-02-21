@@ -30,5 +30,5 @@
     
 - name: Users | Symlink dotfiles
   sudo_user: "{{ item.name }}"
-  shell: bash -lc "homesick -f symlink {{ item.dotfiles_repo }}" 
+  shell: bash -lc "homesick symlink --force {{ item.dotfiles_repo }}" 
   with_items: users
