@@ -1,3 +1,7 @@
+- name: Users | Get homesick
+  #gem: name=homesick state=latest executable=/usr/local/rvm/rubies/default/bin/gem
+  shell: bash -lc "gem install homesick" creates=/usr/local/rvm/rubies/default/bin/homesick
+
 - name: Users | Create user accounts
   user: name={{ item.name }} password={{ item.password }} state=present shell=/usr/bin/zsh groups=rvm,sudo,staff createhome=yes
   with_items: users
@@ -14,21 +18,15 @@
   git: repo=https://github.com/sorin-ionescu/prezto.git dest=/home/{{ item.name }}/.zprezto
   sudo_user: "{{ item.name }}"
   with_items: users
- 
-- name: Users | Get homesick
-  gem: name=homesick state=latest executable=/usr/local/rvm/rubies/default/bin/gem
   
 - name: Users | Get dotfiles
-  shell: bash -lc "homesick clone {{ item.github_name }}/{{ item.dotfiles_repo }}" creates=/home/{{ item.name }}/.homesick/repos/{{ item.dotfiles_repo }}
-  sudo_user: "{{ item.name }}"
+  shell: "su {{ item.name }} - bash -lc 'homesick clone {{ item.github_name }}/{{ item.dotfiles_repo }}' creates=/home/{{ item.name }}/.homesick/repos/{{ item.dotfiles_repo }}"
   with_items: users
 
 - name: Users | Update dotfiles
-  shell: bash -lc "homesick pull {{ item.dotfiles_repo }}"
-  sudo_user: "{{ item.name }}"
+  shell: "su {{ item.name }} - bash -lc 'homesick pull {{ item.dotfiles_repo }}'"
   with_items: users
     
 - name: Users | Symlink dotfiles
-  sudo_user: "{{ item.name }}"
-  shell: bash -lc "homesick symlink --force {{ item.dotfiles_repo }}" 
+  shell: "su {{ item.name }} - bash -lc 'homesick symlink --force {{ item.dotfiles_repo }}'" 
   with_items: users
