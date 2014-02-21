@@ -1,5 +1,5 @@
 - name: Users | Create user accounts
-  user: name={{ item.name }} password={{ item.password }} state=present shell=/usr/bin/zsh groups=sudo createhome=yes
+  user: name={{ item.name }} password={{ item.password }} state=present shell=/usr/bin/zsh groups=rvm,sudo,staff createhome=yes
   with_items: users
   
 - name: Users | Configure SSH for created users
@@ -14,16 +14,21 @@
   git: repo=https://github.com/sorin-ionescu/prezto.git dest=/home/{{ item.name }}/.zprezto
   sudo_user: "{{ item.name }}"
   with_items: users
+ 
+- name: Users | Get homesick
+  gem: name=homesick state=latest executable=/usr/local/rvm/rubies/default/bin/gem
   
 - name: Users | Get dotfiles
-  git: repo="{{ item.dotfiles.repo }}" dest=/home/{{ item.name }}/.dotfiles
+  shell: bash -lc "homesick clone {{ item.github_name }}/{{ item.dotfiles_repo }}" creates=/home/{{ item.name }}/.homesick/repos/{{ item.dotfiles_repo }}
   sudo_user: "{{ item.name }}"
   with_items: users
 
-- name: Users | Install dotfiles
-  command: "{{ item.dotfiles.install_command }} chdir=/home/{{ item.name }}/.dotfiles"
+- name: Users | Update dotfiles
+  shell: bash -lc "homesick pull {{ item.dotfiles_repo }}"
   sudo_user: "{{ item.name }}"
-  environment:
-    PATH: /usr/local/rbenv/bin:/usr/local/rbenv/shims:{{ ansible_env.PATH }}
   with_items: users
-  
+    
+- name: Users | Symlink dotfiles
+  sudo_user: "{{ item.name }}"
+  shell: bash -lc "homesick -f symlink {{ item.dotfiles_repo }}" 
+  with_items: users

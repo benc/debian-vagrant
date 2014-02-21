@@ -13,9 +13,8 @@ users:
   - name: benc
     password: benc
     email: ben@cochezconsult.be
-    dotfiles: 
-      repo: https://github.com/benc/dotfiles.git
-      install_command: rake install
+    github_name: benc
+    dotfiles_repo: dotfiles
 mandrill:
   host: smtp.mandrillapp.com
   user: foo@bar.foobar
