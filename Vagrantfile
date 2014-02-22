@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.ssh.private_key_path = ["#{ENV['HOME']}/.ssh/id_rsa","#{ENV['HOME']}/.vagrant.d/insecure_private_key"]
 
-  # Build www.cochezconsult.be platform
+  # Build blog platform
   config.vm.provider :vmware_fusion do |provider, override|
     override.vm.box_url = 'https://dl.dropboxusercontent.com/s/0mzwv0gxpvpbkqv/ubuntu1204.box?dl=1&token_hash=AAHs5RtYBqWLD9_cU1sWXVIFp5blLd5eu9mj2D2uNggVlg'
     provider.vmx["memsize"] = "1024"
@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
     provider.api_key = settings['digital_ocean']['api_key']
     provider.image = settings['digital_ocean']['machines']['defaults']['image']
     provider.region = settings['digital_ocean']['machines']['defaults']['region']
-    provider.name = "www.cochezconsult.be"
+    provider.name = "blog"
   end
   
   config.vm.define "blog" do |host|

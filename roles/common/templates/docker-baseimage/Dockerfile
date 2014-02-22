@@ -1,9 +1,11 @@
 FROM        ubuntu:12.04
 MAINTAINER  Ben Cochez, ben@cochezconsult.be
 
-######################
-# UPGRADE UBUNTU LTS #
-######################
+# Base Docker image
+# =================
+
+# Upgrade Ubuntu LTS
+# ------------------
 ENV         DEBIAN_FRONTEND noninteractive
 ENV         INITRD No
 
@@ -22,30 +24,22 @@ RUN         ln -sf /bin/true /sbin/initctl
 RUN         echo "initscripts hold" | dpkg --set-selections
 RUN         apt-get upgrade --no-install-recommends
 
-#######
-# NTP #
-#######
+# Configure NTP
+# -------------
 RUN         apt-get install ntp
 ADD         ntp.conf /etc/ntp.conf
 
-#############
-# UTILITIES #
-#############
+# Utilities
+# ---------
 RUN         apt-get install curl unzip
 
-##########
-# EDITOR #
-##########
+# Editor
+# ------
 # vim
 RUN         apt-get install vim
 
-# rmate
-RUN         curl -Lo /usr/local/bin/rmate https://raw.github.com/aurora/rmate/master/rmate
-RUN         chmod a+x /usr/local/bin/rmate
-
-###########
-# OPENSSH #
-###########
+# OpenSSH
+# -------
 RUN         adduser --disabled-password --gecos "" {{ docker.user }}
 RUN         usermod -a -G sudo docker -p {{ docker.password }}
 
@@ -61,16 +55,16 @@ RUN         sed -i -e "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd
 ADD         authorized_keys /home/docker/.ssh/
 RUN         chown -R docker:docker /home/docker/.ssh && chmod 0700 /home/docker/.ssh && chmod 0600 /home/docker/.ssh/*
 
-##############
-# SUPERVISOR #
-##############
+# Supervisor
+# ----------
 RUN         apt-get install supervisor
 RUN         mkdir -p /var/log/supervisor
 
 # create directory for child images to store configuration in
 RUN         mkdir -p /etc/supervisor/conf.d
 
-# Expose to the world
+# Finish
+# ======
 EXPOSE      22
 ADD         supervisord.conf /etc/supervisord.conf
 CMD         ["/usr/bin/supervisord", "-n"]
