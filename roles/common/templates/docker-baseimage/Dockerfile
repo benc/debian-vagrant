@@ -7,9 +7,11 @@ MAINTAINER  Ben Cochez, ben@cochezconsult.be
 ENV         DEBIAN_FRONTEND noninteractive
 ENV         INITRD No
 
+RUN         echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90forceyes
+
 RUN         echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise main universe" > echo /etc/apt/sources.list
 RUN         echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main universe" >> echo /etc/apt/sources.list
-RUN         apt-get -y update
+RUN         apt-get update
 
 # Fix some issues with APT packages.
 # See https://github.com/dotcloud/docker/issues/1024
@@ -18,24 +20,24 @@ RUN         ln -sf /bin/true /sbin/initctl
 
 # Upgrade all packages
 RUN         echo "initscripts hold" | dpkg --set-selections
-RUN         apt-get upgrade -y --no-install-recommends
+RUN         apt-get upgrade --no-install-recommends
 
 #######
 # NTP #
 #######
-RUN         apt-get install -y ntp
+RUN         apt-get install ntp
 ADD         ntp.conf /etc/ntp.conf
 
 #############
 # UTILITIES #
 #############
-RUN         apt-get install -y curl unzip
+RUN         apt-get install curl unzip
 
 ##########
 # EDITOR #
 ##########
 # vim
-RUN         apt-get install -y vim
+RUN         apt-get install vim
 
 # rmate
 RUN         curl -Lo /usr/local/bin/rmate https://raw.github.com/aurora/rmate/master/rmate
@@ -49,7 +51,7 @@ RUN         usermod -a -G sudo docker -p {{ docker.password }}
 
 RUN         mkdir -p /home/docker/.ssh
 
-RUN         apt-get install -y openssh-server
+RUN         apt-get install openssh-server
 RUN         mkdir -p /var/run/sshd
 
 # Secure the ssh installation
@@ -62,7 +64,7 @@ RUN         chown -R docker:docker /home/docker/.ssh && chmod 0700 /home/docker/
 ##############
 # SUPERVISOR #
 ##############
-RUN         apt-get install -y supervisor
+RUN         apt-get install supervisor
 RUN         mkdir -p /var/log/supervisor
 
 # create directory for child images to store configuration in
