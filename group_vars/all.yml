@@ -1,8 +1,10 @@
 ---
 # NOTE:
 # ----
-# These are development passwords. Production machines should be provisioned with different settings:
+# These are development, thus INSECURE passwords. Production machines should be provisioned with different settings:
+
 # * Copy this yaml to a file 'production.yml' in your ansible root directory
+#
 # * Modify the passwords
 # * Provide this file when running the playbooks against production:
 #  
@@ -11,7 +13,8 @@
 ntp: 0.be.pool.ntp.org
 users:
   - name: benc
-    password: benc
+    # echo benc | mkpasswd --method=SHA-512 -s
+    password: $6$wtQ8geXlfiZ$Xgha4T7LP5g7p.69CXHKwKQZOIrPxcT5jUREvMMzYRWnOa/BdAxreBJZ3kpJeaX3/A4jzU7Yn2/LHrH6y66o91
     email: ben@cochezconsult.be
     github_name: benc
     dotfiles_repo: dotfiles
