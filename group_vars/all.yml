@@ -22,8 +22,7 @@ users:
     #   echo benc | mkpasswd --method=SHA-512 -s
     password: $6$wtQ8geXlfiZ$Xgha4T7LP5g7p.69CXHKwKQZOIrPxcT5jUREvMMzYRWnOa/BdAxreBJZ3kpJeaX3/A4jzU7Yn2/LHrH6y66o91
     email: ben@cochezconsult.be
-    github_name: benc
-    dotfiles_repo: dotfiles
+    dotfiles_repo: https://github.com/benc/dotfiles.git
 mandrill:
   host: smtp.mandrillapp.com
   user: foo@bar.foobar

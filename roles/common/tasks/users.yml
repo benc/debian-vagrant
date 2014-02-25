@@ -1,32 +1,28 @@
-- name: Users | Get homesick
-  #gem: name=homesick state=latest executable=/usr/local/rvm/rubies/default/bin/gem
-  shell: bash -lc "gem install homesick" creates=/usr/local/rvm/rubies/default/bin/homesick
+- name: Users | Get rmc
+  get_url: url=http://thoughtbot.github.io/rcm/debs/rcm_1.2.0_all.deb dest=/tmp
 
+- name: Users | Install rmc
+  shell: dpkg -i /tmp/rcm_1.2.0_all.deb
+    
 - name: Users | Create user accounts
-  user: name={{ item.name }} password={{ item.password }} state=present shell=/usr/bin/zsh groups=rvm,sudo,staff createhome=yes
-  with_items: users
-  
-- name: Users | Configure SSH for created users
-  file: path=/home/{{ item.name }}/.ssh state=directory mode=0700 owner={{ item.name }} group={{ item.name }}
+  user: name={{ item.name }} password={{ item.password }} state=present shell=/usr/bin/zsh groups=sudo,staff createhome=yes
   with_items: users
 
 - name: Users | Add authorized_keys for created users
-  template: src=ssh/{{ item.name }}.pub dest=/home/{{ item.name }}/.ssh/authorized_keys mode=0600 owner={{ item.name }} group={{ item.name }}
+  authorized_key: user={{ item.name }} key="{{ lookup('file', 'ssh/' + item.name + '.pub') }}"
   with_items: users
-
+    
 - name: Users | Get zprezto
   git: repo=https://github.com/sorin-ionescu/prezto.git dest=/home/{{ item.name }}/.zprezto
   sudo_user: "{{ item.name }}"
   with_items: users
   
 - name: Users | Get dotfiles
-  shell: "su {{ item.name }} - bash -lc 'homesick clone {{ item.github_name }}/{{ item.dotfiles_repo }}' creates=/home/{{ item.name }}/.homesick/repos/{{ item.dotfiles_repo }}"
-  with_items: users
-
-- name: Users | Update dotfiles
-  shell: "su {{ item.name }} - bash -lc 'homesick pull {{ item.dotfiles_repo }}'"
+  git: repo="{{ item.dotfiles_repo }}" dest=/home/{{ item.name }}/.dotfiles
+  sudo_user: "{{ item.name }}"
   with_items: users
     
 - name: Users | Symlink dotfiles
-  shell: "su {{ item.name }} - bash -lc 'homesick symlink --force {{ item.dotfiles_repo }}'" 
+  shell: "rcup rcrc && rcup" 
+  sudo_user: "{{ item.name }}"
   with_items: users
