@@ -1,0 +1,19 @@
+---
+- name: PhantomJS | Install dependencies.
+  apt: pkg={{item}} state=installed
+  with_items:
+  - graphicsmagick
+  - fontconfig
+  - libfreetype6-dev
+
+- name: PhantomJS | Create the app directory.
+  file: state=directory path=/opt/phantomjs-1.9.7
+
+- name: PhantomJS | Fetch binary distribution
+  get_url: url=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 dest=/tmp
+
+- name: PhantomJS | Unpack
+  command: tar jxf phantomjs-1.9.7-linux-x86_64.tar.bz2 --strip-components=1 --no-same-owner -C /opt/phantomjs-1.9.7 chdir=/tmp creates=/opt/phantomjs-1.9.7/bin/
+
+- name: PhantomJS | Symlink
+  file: dest=/usr/local/bin/phantomjs src=/opt/phantomjs-1.9.7/bin/phantomjs state=link

@@ -65,3 +65,4 @@
 - include: users.yml tags=users
 - include: security.yml tags=security
 - include: docker.yml tags=docker
+#- include: phantomjs.yml tags=phantomjs
