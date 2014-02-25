@@ -1,11 +1,11 @@
 ---
-- name: Main | Install ansible module dependencies
+- name: Install ansible module dependencies
   apt: pkg={{ item }} state=installed
   with_items:
     - python-pycurl
     - python-pip
 
-- name: Main | Set Ubuntu mirrors
+- name: Set Ubuntu mirrors
   apt_repository: repo='{{ item }}' state=present
   with_items:
     - deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse
@@ -13,7 +13,7 @@
     - deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse
     - deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse
 
-- name: Main | Install necessities and nice-to-haves
+- name: Install necessities and nice-to-haves
   apt: pkg={{ item }} state=installed update_cache=yes
   with_items:
     - sudo
@@ -30,39 +30,32 @@
     - netcat
     - unzip
 
+- name: Enable Textmate support
+  get_url: url=https://raw.github.com/aurora/rmate/master/rmate dest=/usr/local/bin/rmate mode=0755
+
 # Docker needs a newer kernel
-- name: Main | Install backported raring kernel 
+- name: Install backported raring kernel 
   apt: pkg=linux-image-generic-lts-raring state=installed update_cache=yes
   register: kernel 
-- name: Main | Reboot after kernel upgrade
+
+- name: Reboot after kernel upgrade
   action: command /sbin/reboot 
   when: kernel|changed
-- name: Main | Wait for system shutdown...
+
+- name: Wait for system shutdown...
   sudo: false
   local_action: wait_for host={{ ansible_fqdn }} port={{ ansible_ssh_port }} state=stopped
   when: kernel|changed
-- name: Main | Wait until the system has restarted...
+
+- name: Wait until the system has restarted...
   sudo: false
   local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} state=started
   when: kernel|changed
   
-- name: Main | Upgrade all safe packages
+- name: Upgrade all safe packages
   apt: upgrade=safe update_cache=yes
 
-- name: Main | Enable Textmate support
-  get_url: url=https://raw.github.com/aurora/rmate/master/rmate dest=/usr/local/bin/rmate mode=0755
-
-- name: Main | Create ssh temporary storage dir
-  file: path={{ ssh.public_keys_dir }} state=directory
-
-- name: Main | Copy all ssh public keys to enable further processing
-  template: src=ssh/{{ item.name }}.pub dest={{ ssh.public_keys_dir }}/{{ item.name }}.pub
-  with_items: users
-  
-#- include: nodejs.yml tags=nodejs
-#- include: ruby.yml tags=ruby
 - include: ntp.yml tags=ntp
 - include: users.yml tags=users
 - include: security.yml tags=security
 - include: docker.yml tags=docker
-#- include: phantomjs.yml tags=phantomjs
