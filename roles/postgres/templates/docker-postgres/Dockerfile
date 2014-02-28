@@ -1,9 +1,9 @@
 FROM        benc/baseimage
 MAINTAINER  Ben Cochez, ben@cochezconsult.be
 
-###########
-# INSTALL #
-###########
+# Install
+# =======
+
 # Add apt repo
 RUN         apt-get install python-software-properties software-properties-common wget
 RUN         wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -23,11 +23,11 @@ RUN         locale-gen en_US.UTF-8
 RUN         dpkg-reconfigure locales
 
 # install
-RUN         LC_ALL=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive apt-get install postgresql-9.3 postgresql-contrib-9.3 
+RUN         LC_ALL=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive apt-get install postgresql-9.3 postgresql-contrib-9.3
 
-#############
-# CONFIGURE #
-#############
+# Configure
+# =========
+
 # /etc/ssl/private can't be accessed from within container for some reason
 # (@andrewgodwin says it's something AUFS related)
 RUN         mkdir /etc/ssl/private-copy; \
