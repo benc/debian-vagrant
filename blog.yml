@@ -7,4 +7,4 @@
     #- role: node.js
     - role: postgres
     - role: passenger
-    - role: blog
+    - role: ghost
