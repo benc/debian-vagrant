@@ -7,7 +7,7 @@
 #
 # * Modify the passwords
 # * Provide this file when running the playbooks against production:
-#  
+#
 #       ansible-playbook -i production site.yml --extra-vars "@production.yml"
 #
 ntp: 0.be.pool.ntp.org
@@ -29,14 +29,11 @@ mandrill:
   api_key: his_fooness_has_left_the_building
 database:
   postgres:
-    user: postgres
-    # md5 -s postgres
-    password: e8a48653851e28c69d0506508fb27fc5
-  ghost:
-    name: ghost
-    user: ghost
-    # md5 -s ghost
-    password: 71144850f4fb4cc55fc0ee6935badddf
+    su_user: postgres
+    su_password: postgres
+    user: docker
+    password: docker
+    database: docker
 docker:
   user: docker
   # echo docker | openssl passwd -crypt -stdin

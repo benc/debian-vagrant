@@ -33,4 +33,6 @@
     
 - name: Docker | Build docker image
   command: docker build -q=true -t=benc/baseimage -rm . chdir={{ docker_base.build_dir }}
-  
+
+- name: Docker | Cleanup temporary build dir
+  file: path={{ docker_base.build_dir }} state=absent  

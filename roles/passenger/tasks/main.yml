@@ -11,3 +11,6 @@
       
 - name: Build Docker image
   command: docker build -q=true -t=benc/passenger -rm . chdir={{ passenger.build_dir }}
+
+- name: Cleanup temporary build dir
+  file: path={{ passenger.build_dir }} state=absent  

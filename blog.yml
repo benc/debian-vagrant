@@ -2,9 +2,9 @@
 - hosts: blog
   roles:
     #- role: mongodb
-    - role: phantomjs
-    - role: ruby
-    - role: node.js
+    #- role: phantomjs
+    #- role: ruby
+    #- role: node.js
     - role: postgres
     - role: passenger
     - role: blog

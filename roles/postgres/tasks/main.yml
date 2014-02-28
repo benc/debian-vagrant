@@ -1,4 +1,3 @@
 ---
 - include: docker-postgres_data.yml
 - include: docker-postgres.yml
-- include: client_tools.yml

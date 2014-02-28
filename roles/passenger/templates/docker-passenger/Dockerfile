@@ -12,18 +12,6 @@ RUN         apt-get update
 # Install node
 RUN         apt-get install nodejs
 
-##########################
-# POSTGRES NATIVE CLIENT #
-##########################
-# Add apt repo
-RUN         apt-get install python-software-properties software-properties-common wget
-RUN         wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN         echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-RUN         apt-get update
-
-# Install postgres library
-RUN         apt-get install libpq-dev postgresql-client-common postgresql-client-9.3
-
 #############
 # PASSENGER #
 #############
@@ -39,9 +27,6 @@ RUN         apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy config files
 ADD         nginx.conf /etc/nginx/nginx.conf
-
-# Create mountpoint directory
-VOLUME      ["/www"]
 
 # Expose to the world
 EXPOSE      80

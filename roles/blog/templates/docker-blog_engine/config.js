@@ -1,7 +1,3 @@
-// # Ghost Configuration
-// Setup your Ghost install for various environments
-// Documentation can be found at http://docs.ghost.org/usage/configuration/
-
 var path = require('path'),
     config;
 
@@ -23,9 +19,9 @@ config = {
             client: "postgres",
             connection: {
                 host     : process.env.DB_PORT_5432_TCP_ADDR,
-                user     : "{{ database.ghost.user }}",
-                password : "{{ database.ghost.password }}",
-                database : "{{ database.ghost.name }}",
+                user     : process.env.DB_ENV_POSTGRES_USER,
+                password : process.env.DB_ENV_POSTGRES_PASSWORD,
+                database : process.env.DB_ENV_POSTGRES_DB,
                 charset  : "utf8"
             },
             debug: false
@@ -37,5 +33,4 @@ config = {
     }
 };
 
-// Export config
 module.exports = config;

@@ -10,17 +10,19 @@
     - pg_hba.conf
     - supervisord.conf
     - start_postgres.sh
-      
+
 - name: Database | Build Docker image
   command: docker build -q=true -t=benc/postgres -rm . chdir={{ postgres.docker.build_dir }}
-    
+
+- name: Database | Cleanup temporary build dir
+  file: path={{ postgres.docker.build_dir }} state=absent
+
 - name: Database | Check if it is already running
   command: docker inspect postgres
   register: docker_inspect_postgres
   ignore_errors: yes
-      
+
 - name: Database | Start
   # docker: name=postgres detach=true ports=:5432 volumes_from=postgres_data image=benc/postgres env="POSTGRES_USER={{ database.postgres.user }},POSTGRES_PASSWORD={{ database.postgres.password }}"
-  command: docker run -name postgres -d -p 5432:5432 -volumes-from postgres_data -e POSTGRES_USER={{ database.postgres.user }} -e POSTGRES_PASSWORD={{ database.postgres.password }} benc/postgres
+  command: docker run -name postgres -d -p 5432:5432 -volumes-from postgres_data -e POSTGRES_SU_USER={{ database.postgres.su_user }} -e POSTGRES_SU_PASSWORD={{ database.postgres.su_password }} -e POSTGRES_USER={{ database.postgres.user }} -e POSTGRES_PASSWORD={{ database.postgres.password }} -e POSTGRES_DB={{ database.postgres.database }} benc/postgres
   when: "'No such image or container' in docker_inspect_postgres.stderr"
-  
