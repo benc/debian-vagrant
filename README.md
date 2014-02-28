@@ -9,10 +9,9 @@ These are my virtual machine configurations, built using Ansible and Docker. Hos
 The Ansible common role installs and configures:
 
 * ntp
-* node
-* ruby: 2.1, rake and pry
 * base docker image: updates LTS, sets up ntp, openssh, supervisor
-* users: zsh, zprezto and their configured dotfiles
+* ufw
+* users: zsh, zprezto and their configured dotfiles (must be configurable using rcm)
 
 Their public keys are added to the vagrant user, and are also granted access to all the docker images through SSH.
 
@@ -20,10 +19,13 @@ Their public keys are added to the vagrant user, and are also granted access to 
 
 Available Ansible roles/Dockerfiles
 
-* Passenger with ruby and node
-* Mongodb
-* Postgres
-* A blog role which sets up a configured passenger Dockerfile running Ghost
+* Mongodb (untested!)
+* Postgres (9.3) using a data only container
+* Node
+* Ruby (sets up a multi user rvm install)
+* PhantomJS
+* Passenger with ruby and node preconfigured
+* Ghost with the N-Coded theme
 
 # License
 
@@ -37,4 +39,3 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/benc/machines/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
