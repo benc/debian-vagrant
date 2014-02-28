@@ -34,12 +34,12 @@
   get_url: url=https://raw.github.com/aurora/rmate/master/rmate dest=/usr/local/bin/rmate mode=0755
 
 # Docker needs a newer kernel
-- name: Install backported raring kernel 
+- name: Install backported raring kernel
   apt: pkg=linux-image-generic-lts-raring state=installed update_cache=yes
-  register: kernel 
+  register: kernel
 
 - name: Reboot after kernel upgrade
-  action: command /sbin/reboot 
+  action: command /sbin/reboot
   when: kernel|changed
 
 - name: Wait for system shutdown...
@@ -51,11 +51,21 @@
   sudo: false
   local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} state=started
   when: kernel|changed
-  
+
 - name: Upgrade all safe packages
   apt: upgrade=safe update_cache=yes
+
+- name: Create ssh temporary storage dir
+  file: path={{ ssh.public_keys_dir }} state=directory
+
+- name: Copy all ssh public keys to enable further processing
+  copy: src=ssh/{{ item.name }}.pub dest={{ ssh.public_keys_dir }}/{{ item.name }}.pub
+  with_items: users
 
 - include: ntp.yml tags=ntp
 - include: users.yml tags=users
 - include: security.yml tags=security
 - include: docker.yml tags=docker
+
+- name: Cleanup ssh temporary storage dir
+  file: path={{ ssh.public_keys_dir }} state=absent
