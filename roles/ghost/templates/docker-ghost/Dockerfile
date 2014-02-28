@@ -5,7 +5,7 @@ MAINTAINER  Ben Cochez, ben@cochezconsult.be
 # =====
 
 # Add webapp configuration to nginx
-ADD         www.cochezconsult.be.conf /etc/nginx/conf.d/www.cochezconsult.be.conf
+ADD         www.cochez.io.conf /etc/nginx/conf.d/www.cochez.io.conf
 
 # Postgres native client
 # ======================

@@ -1,5 +1,5 @@
 ---
-domain: www.cochezconsult.be
+domain: www.cochez.io
 ghost:
   template_dir: docker-ghost
   build_dir: /tmp/docker-ghost

@@ -9,7 +9,7 @@
   template: src={{ ghost.template_dir }}/{{ item }} dest={{ ghost.build_dir }}/{{ item }}
   with_items:
     - Dockerfile
-    - www.cochezconsult.be.conf
+    - www.cochez.io.conf
     - config.js
 
 - name: Copy Ghost and related files
