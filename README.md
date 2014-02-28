@@ -1,6 +1,6 @@
 # Machines
 
-These are my virtual machine configurations, built using Ansible and Docker. Host and docker containers are based on Ubuntu 12.04 LTS.
+These are my virtual machine configurations, built using [Ansible](http://www.ansible.com/home) and [Docker](https://www.docker.io/). Host and docker containers are based on [Ubuntu 12.04 LTS](https://wiki.ubuntu.com/LTS).
 
 ## Ansible
 
