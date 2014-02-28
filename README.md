@@ -9,23 +9,31 @@ These are my virtual machine configurations, built using Ansible and Docker. Hos
 The Ansible common role installs and configures:
 
 * ntp
-* base docker image: updates LTS, sets up ntp, openssh, supervisor
-* ufw
-* users: zsh, zprezto and their configured dotfiles (must be configurable using rcm)
+* base docker image: updates LTS, sets up ntp, [openssh](http://www.openssh.com/), [supervisord](http://supervisord.org/)
+* [ufw](https://launchpad.net/ufw)
+* users: [zsh](http://www.zsh.org/), [zprezto](https://github.com/sorin-ionescu/prezto) and their configured dotfiles (must be configurable using [rcm](https://github.com/thoughtbot/rcm))
 
-Their public keys are added to the vagrant user, and are also granted access to all the docker images through SSH.
+The public keys of all users are added to the docker images through SSH.
 
 ### Roles
 
 Available Ansible roles/Dockerfiles
 
-* Mongodb (untested!)
-* Postgres (9.3) using a data only container
-* Node
-* Ruby (sets up a multi user rvm install)
-* PhantomJS
-* Passenger with ruby and node preconfigured
-* Ghost with the N-Coded theme
+* [MongoDB](http://www.mongodb.org/) (untested!)
+* [Postgres 9.3](http://www.postgresql.org/) using a data only container
+* [Node.js](http://nodejs.org/)
+* Ruby (sets up a multi user [rvm](http://rvm.io/) install)
+* [PhantomJS](http://phantomjs.org/)
+* [Passenger](https://www.phusionpassenger.com/) with ruby and node.js preconfigured
+* [Ghost](https://ghost.org/) with the [N-Coded](https://github.com/polygonix/N-Coded) theme
+
+## Vagrant
+
+I use [vagrant](http://www.vagrantup.com/) to test these images. The insecure vagrant public key is removed upon start, all configured public keys are added to the vagrant user by ansible.
+
+## Digital Ocean
+
+After testing, these playbooks are used to build my [digital ocean](https://www.digitalocean.com/) droplets.
 
 # License
 
