@@ -20,8 +20,4 @@ if [ ! "$(ls -A $DATADIR)" ]; then
   su - postgres -c "$BINDIR/postgres --single -D $DATADIR -c config_file=$CONFDIR/postgresql.conf" <<< "GRANT ALL ON DATABASE $POSTGRES_DB TO $POSTGRES_USER;"
 fi
 
-# don't expose to linked containers
-unset POSTGRES_SU_USER
-unset POSTGRES_SU_PASSWORD
-
 su - postgres -c "$BINDIR/postgres -D $DATADIR -c config_file=$CONFDIR/postgresql.conf"
