@@ -1,35 +1,35 @@
 ---
 - name: Create web directory
-  file: path={{ blog_engine.web_dir }} state=directory owner=www-data group=www-data mode=0755
+  file: path={{ ghost.web_dir }} state=directory owner=www-data group=www-data mode=0755
 
 - name: Create temporary build dir
-  file: path={{ blog_engine.build_dir }} state=directory
+  file: path={{ ghost.build_dir }} state=directory
 
 - name: Copy Dockerfile and config files
-  template: src={{ blog_engine.template_dir }}/{{ item }} dest={{ blog_engine.build_dir }}/{{ item }}
+  template: src={{ ghost.template_dir }}/{{ item }} dest={{ ghost.build_dir }}/{{ item }}
   with_items:
     - Dockerfile
     - www.cochezconsult.be.conf
     - config.js
 
 - name: Copy Ghost and related files
-  copy: src={{ item }} dest={{ blog_engine.build_dir }}/{{ item }}
+  copy: src={{ item }} dest={{ ghost.build_dir }}/{{ item }}
   with_items:
     - ghost-0.4.1.zip
     - N-Coded.zip
 
 - name: Build Docker image
-  command: docker build -q=true -t=benc/blog_engine -rm . chdir={{ blog_engine.build_dir }}
+  command: docker build -q=true -t=benc/ghost -rm . chdir={{ ghost.build_dir }}
 
 - name: Cleanup temporary build dir
-  file: path={{ blog_engine.build_dir }} state=absent
+  file: path={{ ghost.build_dir }} state=absent
 
 - name: Check if it is already running
-  command: docker inspect blog_engine
-  register: docker_inspect_blog_engine
+  command: docker inspect ghost
+  register: docker_inspect_ghost
   ignore_errors: yes
 
-- name: Start blog_engine instance
-  # docker: name=blog_engine links=postgres:db ports=:80 detach=true image=benc/blog_engine
-  command: docker run -name blog_engine -link postgres:db -p 80:80 -d benc/blog_engine
-  when: "'No such image or container' in docker_inspect_blog_engine.stderr"
+- name: Start ghost instance
+  # docker: name=ghost links=postgres:db ports=:80 detach=true image=benc/ghost
+  command: docker run -name ghost -link postgres:db -p 80:80 -d benc/ghost
+  when: "'No such image or container' in docker_inspect_ghost.stderr"

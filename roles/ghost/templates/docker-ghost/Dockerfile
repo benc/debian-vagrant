@@ -25,9 +25,8 @@ RUN         mkdir -p /www
 ADD         ghost-0.4.1.zip /www/ghost.zip
 RUN         cd /www && unzip -ou ghost.zip && rm -f ghost.zip
 
-RUN         mkdir -p /www/www/content/themes/n-coded/
-ADD         N-Coded.zip /www/content/themes/n-coded/N-Coded.zip
-RUN         cd /www/content/themes/n-coded/ && unzip -ou N-Coded.zip && rm -f N-Coded.zip
+ADD         N-Coded.zip /www/content/themes/N-Coded.zip
+RUN         cd /www/content/themes/ && unzip -ou N-Coded.zip && rm -f N-Coded.zip
 
 # Configure
 ADD         config.js /www/config.js
