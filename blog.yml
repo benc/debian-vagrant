@@ -5,6 +5,7 @@
     #- role: phantomjs
     #- role: ruby
     #- role: node.js
+    - role: serf
     - role: postgres
     - role: passenger
     - role: ghost

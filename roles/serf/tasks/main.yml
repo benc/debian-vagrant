@@ -1,0 +1,12 @@
+---
+- name: Create the app directory.
+  file: state=directory path=/opt/serf-{{ serf.version }}
+
+- name: Fetch binary distribution
+  get_url: url=https://dl.bintray.com/mitchellh/serf/{{ serf.version }}_linux_amd64.zip dest=/tmp/serf.zip
+
+- name: Unpack
+  command: unzip -ou /tmp/serf.zip chdir=/opt/serf-{{ serf.version }} creates=/opt/serf-{{ serf.version }}/bin/serf
+
+- name: Symlink
+  file: dest=/usr/local/bin/serf src=/opt/serf-{{ serf.version }}/serf state=link
