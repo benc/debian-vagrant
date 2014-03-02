@@ -55,6 +55,12 @@ RUN         sed -i -e "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd
 ADD         authorized_keys /home/docker/.ssh/
 RUN         chown -R docker:docker /home/docker/.ssh && chmod 0700 /home/docker/.ssh && chmod 0600 /home/docker/.ssh/*
 
+# Serf
+# ----
+RUN         curl -sf -o /tmp/serf.zip -L https://dl.bintray.com/mitchellh/serf/{{ serf.version }}_linux_amd64.zip
+RUN         mkdir -p /opt/serf-{{ serf.version}} && cd /opt/serf-{{ serf.version}} && unzip -ou /tmp/serf.zip
+RUN         cd /usr/local/bin && ln -sf /opt/serf-{{ serf.version}}/serf serf
+
 # Supervisor
 # ----------
 RUN         apt-get install supervisor
