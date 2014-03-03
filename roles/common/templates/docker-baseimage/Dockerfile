@@ -55,11 +55,16 @@ RUN         sed -i -e "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd
 ADD         authorized_keys /home/docker/.ssh/
 RUN         chown -R docker:docker /home/docker/.ssh && chmod 0700 /home/docker/.ssh && chmod 0600 /home/docker/.ssh/*
 
+EXPOSE      22
+
 # etcd
 # ----
 RUN         curl -sf -o /tmp/etcd.tar.gz -L https://github.com/coreos/etcd/releases/download/v{{ etcd.version }}/etcd-v{{ etcd.version }}-linux-amd64.tar.gz
 RUN         mkdir -p /opt/etcd-{{ etcd.version }} && cd /tmp && tar zxf etcd.tar.gz --strip-components=1 --no-same-owner -C /opt/etcd-{{ etcd.version }}
 RUN         cd /usr/local/bin && ln -sf /opt/etcd-{{ etcd.version }}/etcd etcd && ln -sf /opt/etcd-{{ etcd.version }}/etcdctl etcdctl
+
+EXPOSE      4001
+EXPOSE      7001
 
 # Supervisor
 # ----------
@@ -69,8 +74,5 @@ RUN         mkdir -p /var/log/supervisor
 # create directory for child images to store configuration in
 RUN         mkdir -p /etc/supervisor/conf.d
 
-# Finish
-# ======
-EXPOSE      22
 ADD         supervisord.conf /etc/supervisord.conf
 CMD         ["/usr/bin/supervisord", "-n"]
