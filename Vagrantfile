@@ -6,37 +6,20 @@ require 'yaml'
 settings = YAML.load(IO.read('vagrant_secure_settings.yml'))
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "precise64"
+  config.vm.box = "coreos"
+  config.vm.box_url = "http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_vagrant.box"
+
   config.ssh.private_key_path = ["#{ENV['HOME']}/.ssh/id_rsa","#{ENV['HOME']}/.vagrant.d/insecure_private_key"]
 
   # Build blog platform
   config.vm.provider :vmware_fusion do |provider, override|
-    override.vm.box_url = 'https://dl.dropboxusercontent.com/s/0mzwv0gxpvpbkqv/ubuntu1204.box?dl=1&token_hash=AAHs5RtYBqWLD9_cU1sWXVIFp5blLd5eu9mj2D2uNggVlg'
+    override.vm.box_url = 'http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_vagrant_vmware_fusion.box'
     provider.vmx["memsize"] = "1024"
     provider.vmx["mks.enable3d"] = "FALSE"
     provider.vmx["mks.vsync"] = "1"
     provider.gui = false
   end
- 
-  config.vm.provider :virtualbox do |provider, override|
-    override.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
-    provider.customize ["modifyvm", :id, "--memory", 1024]
-  end
 
-  config.vm.provider :digital_ocean do |provider, override|
-    override.ssh.private_key_path = settings['digital_ocean']['machines']['defaults']['private_key_path']
-    override.ssh.username = settings['digital_ocean']['machines']['defaults']['username']
-
-    override.vm.box = 'digital_ocean'
-    override.vm.box_url = 'https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box'
-
-    provider.client_id = settings['digital_ocean']['client_id']
-    provider.api_key = settings['digital_ocean']['api_key']
-    provider.image = settings['digital_ocean']['machines']['defaults']['image']
-    provider.region = settings['digital_ocean']['machines']['defaults']['region']
-    provider.name = "blog"
-  end
-  
   config.vm.define "blog" do |host|
     host.vm.network :forwarded_port, guest: 80, host: 30080
   end
