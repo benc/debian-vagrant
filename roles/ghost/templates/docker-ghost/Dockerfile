@@ -7,6 +7,16 @@ MAINTAINER  Ben Cochez, ben@cochezconsult.be
 # Add webapp configuration to nginx
 ADD         www.cochez.io.conf /etc/nginx/conf.d/www.cochez.io.conf
 
+# Serf
+# ====
+ADD         start_serf.sh /usr/local/bin/start_serf.sh
+RUN         chmod +x /usr/local/bin/start_serf.sh
+
+ADD         serf_join.sh /usr/local/bin/serf_join.sh
+RUN         chmod +x /usr/local/bin/serf_join.sh
+
+ADD         supervisord.conf /etc/supervisor/conf.d/serf.conf
+
 # Postgres native client
 # ======================
 # Add apt repo

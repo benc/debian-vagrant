@@ -1,4 +1,5 @@
 ---
+# Local installation
 - name: Create the app directory.
   file: state=directory path=/opt/serf-{{ serf.version }}
 
@@ -10,3 +11,29 @@
 
 - name: Symlink
   file: dest=/usr/local/bin/serf src=/opt/serf-{{ serf.version }}/serf state=link
+
+# Docker image
+- name: Create temporary build dir
+  file: path={{ serf.docker.build_dir }} state=directory
+
+- name: Copy Dockerfile and related config files
+  template: src={{ serf.docker.template_dir }}/{{ item }} dest={{ serf.docker.build_dir }}/{{ item }}
+  with_items:
+    - Dockerfile
+    - supervisord.conf
+    - start_serf.sh
+
+- name: Build Docker image
+  command: docker build -q=true -t=benc/serf -rm . chdir={{ serf.docker.build_dir }}
+
+- name: Cleanup temporary build dir
+  file: path={{ serf.docker.build_dir }} state=absent
+
+- name: Check if it is already running
+  command: docker inspect serf
+  register: docker_inspect_serf
+  ignore_errors: yes
+
+- name: Start
+  command: docker run -name serf -d -p 7946:7946 -p 7373:7373 benc/serf
+  when: "'No such image or container' in docker_inspect_serf.stderr"

@@ -1,5 +1,4 @@
-var path = require('path'),
-    config;
+var path = require('path'), config;
 
 config = {
   production: {
@@ -18,10 +17,10 @@ config = {
         database: {
             client: "postgres",
             connection: {
-                host     : process.env.DB_PORT_5432_TCP_ADDR,
-                user     : process.env.DB_ENV_POSTGRES_USER,
-                password : process.env.DB_ENV_POSTGRES_PASSWORD,
-                database : process.env.DB_ENV_POSTGRES_DB,
+                host     : process.env.POSTGRES_HOST,
+                user     : process.env.POSTGRES_USER,
+                password : process.env.POSTGRES_PASSWORD,
+                database : process.env.POSTGRES_DB,
                 charset  : "utf8"
             },
             debug: false

@@ -11,6 +11,9 @@
     - Dockerfile
     - www.cochez.io.conf
     - config.js
+    - supervisord.conf
+    - start_serf.sh
+    - serf_join.sh
 
 - name: Copy Ghost and related files
   copy: src={{ item }} dest={{ ghost.build_dir }}/{{ item }}
@@ -35,5 +38,5 @@
 
 - name: Start ghost instance
   # docker: name=ghost links=postgres:db ports=:80 detach=true image=benc/ghost
-  command: docker run -name ghost -link postgres:db -p 80:80 -d benc/ghost
+  command: docker run -name ghost -link serf:serf -p 80:80 -e POSTGRES_USER={{ database.postgres.user }} -e POSTGRES_PASSWORD={{ database.postgres.password }} -e POSTGRES_DB={{ database.postgres.database }} -d benc/ghost
   when: "'No such image or container' in docker_inspect_ghost.stderr"

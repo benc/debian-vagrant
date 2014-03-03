@@ -1,8 +1,21 @@
 FROM        benc/baseimage
 MAINTAINER  Ben Cochez, ben@cochezconsult.be
 
+# Serf
+# ====
+ADD         start_serf.sh /usr/local/bin/start_serf.sh
+RUN         chmod +x /usr/local/bin/start_serf.sh
+
+ADD         serf_join.sh /usr/local/bin/serf_join.sh
+RUN         chmod +x /usr/local/bin/serf_join.sh
+
+ADD         supervisord.conf /etc/supervisor/conf.d/serf.conf
+
+# Postgres
+# ========
+
 # Install
-# =======
+# -------
 
 # Add apt repo
 RUN         apt-get install python-software-properties software-properties-common wget
@@ -26,7 +39,7 @@ RUN         dpkg-reconfigure locales
 RUN         LC_ALL=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive apt-get install postgresql-9.3 postgresql-contrib-9.3
 
 # Configure
-# =========
+# ---------
 
 # /etc/ssl/private can't be accessed from within container for some reason
 # (@andrewgodwin says it's something AUFS related)
