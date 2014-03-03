@@ -1,0 +1,15 @@
+---
+- name: etcd | Create the app directory.
+  file: state=directory path=/opt/etcd-{{ etcd.version }}
+
+- name: etcd | Fetch binary distribution
+  get_url: url=https://github.com/coreos/etcd/releases/download/v{{ etcd.version }}/etcd-v{{ etcd.version }}-linux-amd64.tar.gz dest=/tmp/etcd.tar.gz
+
+- name: etcd | Unpack
+  command: tar zxf etcd.tar.gz --strip-components=1 --no-same-owner -C /opt/etcd-{{ etcd.version }} chdir=/tmp creates=/opt/etcd-{{ etcd.version }}/etcd
+
+- name: etcd | Symlink
+  file: dest=/usr/local/bin/{{ item }} src=/opt/etcd-{{ etcd.version }}/{{ item }} state=link
+  with_items:
+    - etcd
+    - etcdctl

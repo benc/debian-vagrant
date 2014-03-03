@@ -38,3 +38,5 @@ docker:
   user: docker
   # echo docker | openssl passwd -crypt -stdin
   password: YGB0OKUWgPEsE
+etcd:
+  version: 0.3.0
