@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     provider.vmx["mks.vsync"] = "1"
     provider.gui = false
   end
- 
+
   config.vm.provider :virtualbox do |provider, override|
     override.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
     provider.customize ["modifyvm", :id, "--memory", 1024]
@@ -36,9 +36,11 @@ Vagrant.configure("2") do |config|
     provider.region = settings['digital_ocean']['machines']['defaults']['region']
     provider.name = "blog"
   end
-  
+
   config.vm.define "blog" do |host|
     host.vm.network :forwarded_port, guest: 80, host: 30080
+    host.vm.network :forwarded_port, guest: 4001, host: 34001
+    host.vm.network :forwarded_port, guest: 7001, host: 37001
   end
 
   config.vm.provision :shell, inline: <<-SCRIPT

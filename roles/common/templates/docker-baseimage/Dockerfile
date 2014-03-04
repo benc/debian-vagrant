@@ -63,9 +63,6 @@ RUN         curl -sf -o /tmp/etcd.tar.gz -L https://github.com/coreos/etcd/relea
 RUN         mkdir -p /opt/etcd-{{ etcd.version }} && cd /tmp && tar zxf etcd.tar.gz --strip-components=1 --no-same-owner -C /opt/etcd-{{ etcd.version }}
 RUN         cd /usr/local/bin && ln -sf /opt/etcd-{{ etcd.version }}/etcd etcd && ln -sf /opt/etcd-{{ etcd.version }}/etcdctl etcdctl
 
-EXPOSE      4001
-EXPOSE      7001
-
 # Supervisor
 # ----------
 RUN         apt-get install supervisor

@@ -1,15 +1,25 @@
 ---
-- name: etcd | Create the app directory.
-  file: state=directory path=/opt/etcd-{{ etcd.version }}
+- name: etcd | Create temporary build dir
+  file: path={{ etcd.docker.build_dir }} state=directory
 
-- name: etcd | Fetch binary distribution
-  get_url: url=https://github.com/coreos/etcd/releases/download/v{{ etcd.version }}/etcd-v{{ etcd.version }}-linux-amd64.tar.gz dest=/tmp/etcd.tar.gz
-
-- name: etcd | Unpack
-  command: tar zxf etcd.tar.gz --strip-components=1 --no-same-owner -C /opt/etcd-{{ etcd.version }} chdir=/tmp creates=/opt/etcd-{{ etcd.version }}/etcd
-
-- name: etcd | Symlink
-  file: dest=/usr/local/bin/{{ item }} src=/opt/etcd-{{ etcd.version }}/{{ item }} state=link
+- name: etcd | Copy Dockerfile and related config files
+  template: src={{ etcd.docker.template_dir }}/{{ item }} dest={{ etcd.docker.build_dir }}/{{ item }}
   with_items:
-    - etcd
-    - etcdctl
+    - Dockerfile
+    - supervisord.conf
+    - run_etcd.sh
+
+- name: etcd | Build Docker image
+  command: docker build -q=true -t=benc/etcd -rm . chdir={{ etcd.docker.build_dir }}
+
+- name: etcd | Cleanup temporary build dir
+  file: path={{ etcd.docker.build_dir }} state=absent
+
+- name: etcd | Check if it is already running
+  command: docker inspect etcd
+  register: docker_inspect_etcd
+  ignore_errors: yes
+
+- name: etcd | Start
+  command: docker run -name etcd -d -p 4001:4001 -p 7001:7001 benc/etcd
+  when: "'No such image or container' in docker_inspect_etcd.stderr"

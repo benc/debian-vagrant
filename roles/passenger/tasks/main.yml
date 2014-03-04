@@ -7,6 +7,7 @@
   with_items:
     - Dockerfile
     - supervisord.conf
+    - run_etcd.sh
     - nginx.conf
       
 - name: Build Docker image

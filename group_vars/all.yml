@@ -40,3 +40,7 @@ docker:
   password: YGB0OKUWgPEsE
 etcd:
   version: 0.3.0
+  token: https://discovery.etcd.io/49eefb3e994e9c2bf0b6a1c7b7492c5d
+  docker:
+    template_dir: docker-etcd
+    build_dir: /tmp/docker-etcd

@@ -10,6 +10,7 @@ The Ansible common role installs and configures:
 
 * ntp
 * base docker image: updates LTS, sets up ntp, [openssh](http://www.openssh.com/), [supervisord](http://supervisord.org/)
+* provides a leader [etcd](https://github.com/coreos/etcd) instance
 * [ufw](https://launchpad.net/ufw)
 * users: [zsh](http://www.zsh.org/), [zprezto](https://github.com/sorin-ionescu/prezto) and their configured dotfiles (must be configurable using [rcm](https://github.com/thoughtbot/rcm))
 
@@ -20,11 +21,11 @@ The public keys of all users are added to the docker images through SSH.
 Available Ansible roles/Dockerfiles
 
 * [MongoDB](http://www.mongodb.org/) (untested!)
-* [Postgres 9.3](http://www.postgresql.org/) using a data only container
+* [Postgres 9.3](http://www.postgresql.org/) using a data only container, running an etcd 'postgres' instance.
 * [Node.js](http://nodejs.org/)
 * Ruby (sets up a multi user [rvm](http://rvm.io/) install)
 * [PhantomJS](http://phantomjs.org/)
-* [Passenger](https://www.phusionpassenger.com/) with ruby and node.js preconfigured
+* [Passenger](https://www.phusionpassenger.com/) with ruby and node.js preconfigured, running an etcd 'passenger' instance.
 * [Ghost](https://ghost.org/) with the [N-Coded](https://github.com/polygonix/N-Coded) theme
 
 ## Vagrant

@@ -1,6 +1,12 @@
 FROM        benc/baseimage
 MAINTAINER  Ben Cochez, ben@cochezconsult.be
 
+# etcd
+# ====
+ADD         run_etcd.sh /usr/local/bin/run_etcd.sh
+RUN         chmod +x /usr/local/bin/run_etcd.sh
+ADD         supervisord.conf /etc/supervisor/conf.d/etcd.conf
+
 # Node.js
 # =======
 

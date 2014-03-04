@@ -1,8 +1,17 @@
 FROM        benc/baseimage
 MAINTAINER  Ben Cochez, ben@cochezconsult.be
 
+# etcd
+# ====
+ADD         run_etcd.sh /usr/local/bin/run_etcd.sh
+RUN         chmod +x /usr/local/bin/run_etcd.sh
+ADD         supervisord.conf /etc/supervisor/conf.d/etcd.conf
+
+# Postgres
+# ========
+
 # Install
-# =======
+# -------
 
 # Add apt repo
 RUN         apt-get install python-software-properties software-properties-common wget
@@ -26,7 +35,7 @@ RUN         dpkg-reconfigure locales
 RUN         LC_ALL=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive apt-get install postgresql-9.3 postgresql-contrib-9.3
 
 # Configure
-# =========
+# ---------
 
 # /etc/ssl/private can't be accessed from within container for some reason
 # (@andrewgodwin says it's something AUFS related)

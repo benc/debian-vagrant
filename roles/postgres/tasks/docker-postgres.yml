@@ -10,6 +10,7 @@
     - pg_hba.conf
     - supervisord.conf
     - start_postgres.sh
+    - run_etcd.sh
 
 - name: Database | Build Docker image
   command: docker build -q=true -t=benc/postgres -rm . chdir={{ postgres.docker.build_dir }}
