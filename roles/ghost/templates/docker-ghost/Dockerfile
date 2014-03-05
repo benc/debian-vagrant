@@ -44,7 +44,7 @@ RUN         cd /www/content/themes/ && unzip -ou solar-theme-ghost-master.zip &&
 ADD         config.js /www/config.js
 
 # Install dependencies
-RUN         cd /www && npm cache clear && npm install --production && npm install pg
+RUN         cd /www && npm cache clear && npm install --production && npm install pg && npm install nodejs-etcd
 
 # Transfer authority to www-data
 RUN         chown -R www-data:www-data /www

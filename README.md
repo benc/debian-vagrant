@@ -1,6 +1,8 @@
 # Machines
 
-These are my virtual machine configurations, built using [Ansible](http://www.ansible.com/home) and [Docker](https://www.docker.io/). Host and docker containers are based on [Ubuntu 12.04 LTS](https://wiki.ubuntu.com/LTS).
+These are my virtual machine configurations, built using [Ansible](http://www.ansible.com/home) and [Docker](https://www.docker.io/). 
+
+The host and docker containers are based on [Ubuntu 12.04 LTS](https://wiki.ubuntu.com/LTS) to make them runnable on DigitalOcean. 
 
 ## Ansible
 
@@ -27,6 +29,12 @@ Available Ansible roles/Dockerfiles
 * [PhantomJS](http://phantomjs.org/)
 * [Passenger](https://www.phusionpassenger.com/) with ruby and node.js preconfigured, running an etcd 'passenger' instance.
 * [Ghost](https://ghost.org/) with the [N-Coded](https://github.com/polygonix/N-Coded) theme
+
+## Docker
+
+* Dockerfiles aren't pushed to the central docker index, they are built and kept on the machine.
+* Every running Docker container has an etcd instance running. 
+* Docker containers are linked using [etcd cluster discovery](https://coreos.com/docs/cluster-management/setup/etcd-cluster-discovery/).
 
 ## Vagrant
 

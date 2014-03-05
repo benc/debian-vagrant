@@ -34,6 +34,6 @@
   ignore_errors: yes
 
 - name: Start ghost instance
-  # docker: name=ghost links=postgres:db ports=:80 detach=true image=benc/ghost
-  command: docker run -name ghost -link postgres:db -p 80:80 -d benc/ghost
+  # docker: name=ghost ports=:80 detach=true image=benc/ghost
+  command: docker run -name ghost -p 80:80 -d benc/ghost
   when: "'No such image or container' in docker_inspect_ghost.stderr"

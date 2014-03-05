@@ -4,4 +4,8 @@ docker_base:
   build_dir: /tmp/docker-baseimage
 ssh:
   public_keys_dir: /tmp/ssh
-  
+etcd:
+  version: 0.3.0 
+  docker:
+    template_dir: docker-etcd
+    build_dir: /tmp/docker-etcd  
