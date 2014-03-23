@@ -2,25 +2,25 @@ var path = require('path'), config;
 var etcd = require('nodejs-etcd');
 
 var etcdConfig = new etcd({
-    url: 'http://127.0.0.1:4001'
+    url: "http://127.0.0.1:4001"
 })
 
-etcdConfig.read({'db_host': '/postgres/ip', function (err, result, body) {
+etcdConfig.read({"db_host": "/postgres/ip", function (err, result, body) {
   if (err) throw err;
   assert(result.value);
 });
 
-etcdConfig.read({'db_user': '/postgres/user', function (err, result, body) {
+etcdConfig.read({"db_user": "/postgres/user", function (err, result, body) {
   if (err) throw err;
   assert(result.value);
 });
 
-etcdConfig.read({'db_password': '/postgres/password', function (err, result, body) {
+etcdConfig.read({"db_password": "/postgres/password", function (err, result, body) {
   if (err) throw err;
   assert(result.value);
 });
 
-etcdConfig.read({'db_database': '/postgres/database', function (err, result, body) {
+etcdConfig.read({"db_database": "/postgres/database", function (err, result, body) {
   if (err) throw err;
   assert(result.value);
 });

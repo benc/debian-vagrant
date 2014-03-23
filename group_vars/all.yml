@@ -38,5 +38,5 @@ docker:
   user: docker
   # echo docker | openssl passwd -crypt -stdin
   password: YGB0OKUWgPEsE
-etcd_token: https://discovery.etcd.io/0b1856d0f0e29e36c998478b6554d3d4
+etcd_token: https://discovery.etcd.io/53e82a0946a427ef60790c584ad93126
 
