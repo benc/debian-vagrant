@@ -11,8 +11,8 @@ ENV         INITRD No
 
 RUN         echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90forceyes
 
-RUN         echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise main universe" > echo /etc/apt/sources.list
-RUN         echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main universe" >> echo /etc/apt/sources.list
+RUN         echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main universe" > echo /etc/apt/sources.list
+RUN         echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main universe" >> echo /etc/apt/sources.list
 RUN         apt-get update
 
 # Fix some issues with APT packages.
