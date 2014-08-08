@@ -1,4 +1,0 @@
----
-passenger:
-  template_dir: docker-passenger
-  build_dir: /tmp/docker-passenger

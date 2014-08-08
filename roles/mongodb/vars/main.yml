@@ -1,5 +1,0 @@
----
-mongodb:
-  template_dir: docker-mongodb
-  build_dir: /tmp/docker-mongodb
-  data_dir: /data/mongodb/db

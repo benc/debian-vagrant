@@ -1,6 +1,6 @@
 # Machines
 
-These are my virtual machine configurations, built using [Ansible](http://www.ansible.com/home) and [Docker](https://www.docker.io/). Host and docker containers are based on [Ubuntu 12.04 LTS](https://wiki.ubuntu.com/LTS).
+These are my virtual machine configurations, built using [Ansible](http://www.ansible.com/home). The host is based on [Ubuntu 14.04 LTS](https://wiki.ubuntu.com/LTS).
 
 ## Ansible
 
@@ -9,23 +9,20 @@ These are my virtual machine configurations, built using [Ansible](http://www.an
 The Ansible common role installs and configures:
 
 * ntp
-* base docker image: updates LTS, sets up ntp, [openssh](http://www.openssh.com/), [supervisord](http://supervisord.org/)
 * [ufw](https://launchpad.net/ufw)
 * users: [zsh](http://www.zsh.org/), [zprezto](https://github.com/sorin-ionescu/prezto) and their configured dotfiles (must be configurable using [rcm](https://github.com/thoughtbot/rcm))
 
-The public keys of all users are added to the docker images through SSH.
-
 ### Roles
 
-Available Ansible roles/Dockerfiles
+Available Ansible roles
 
-* [MongoDB](http://www.mongodb.org/) (untested!)
-* [Postgres 9.3](http://www.postgresql.org/) using a data only container
+* [Postgres 9.3](http://www.postgresql.org/)
 * [Node.js](http://nodejs.org/)
 * Ruby (sets up a multi user [rvm](http://rvm.io/) install)
 * [PhantomJS](http://phantomjs.org/)
-* [Passenger](https://www.phusionpassenger.com/) with ruby and node.js preconfigured
-* [Ghost](https://ghost.org/) with the [N-Coded](https://github.com/polygonix/N-Coded) theme
+* Java
+* Teamcity
+* Upsource (EAP)
 
 ## Vagrant
 
@@ -33,7 +30,7 @@ I use [vagrant](http://www.vagrantup.com/) to test these images. The insecure va
 
 ## Digital Ocean
 
-After testing, these playbooks are used to build my [digital ocean](https://www.digitalocean.com/) droplets.
+After testing, these playbooks are used to build my greenqloud instances.
 
 # License
 
@@ -44,6 +41,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/benc/machines/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

@@ -1,6 +1,0 @@
----
-domain: www.cochez.io
-ghost:
-  template_dir: docker-ghost
-  build_dir: /tmp/docker-ghost
-  web_dir: /www/{{ domain }}
