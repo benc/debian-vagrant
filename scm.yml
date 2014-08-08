@@ -1,0 +1,6 @@
+---
+- hosts: scm
+  roles:
+    - role: java
+    #- role: teamcity
+    #- role: upsource

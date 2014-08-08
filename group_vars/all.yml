@@ -31,10 +31,9 @@ database:
   postgres:
     su_user: postgres
     su_password: postgres
-    user: docker
-    password: docker
-    database: docker
-docker:
-  user: docker
-  # echo docker | openssl passwd -crypt -stdin
-  password: YGB0OKUWgPEsE
+  teamcity:
+    user: teamcity
+    password: teamcity
+  upsource:
+    user: upsource
+    password: upsource

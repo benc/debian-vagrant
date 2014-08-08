@@ -1,5 +1,5 @@
 ---
-- hosts: blog
+- hosts: scm
 
   tasks:
   - name: Copy private key

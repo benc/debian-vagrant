@@ -1,5 +1,5 @@
 [webservers:children]
-blog
+scm
 
-[blog]
-www.cochez.io  ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+[scm]
+scm.cochez.io  ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222

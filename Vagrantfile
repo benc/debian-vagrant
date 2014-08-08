@@ -2,10 +2,9 @@ require 'yaml'
 settings = YAML.load(IO.read('vagrant_secure_settings.yml'))
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "jpease/ubuntu-trusty"
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
   config.ssh.private_key_path = ["#{ENV['HOME']}/.ssh/id_rsa","#{ENV['HOME']}/.vagrant.d/insecure_private_key"]
 
-  # Build blog platform
   config.vm.provider :vmware_fusion do |provider, override|
     provider.vmx["memsize"] = "1024"
     provider.vmx["mks.enable3d"] = "FALSE"
@@ -13,7 +12,7 @@ Vagrant.configure("2") do |config|
     provider.gui = false
   end
   
-  config.vm.define "blog" do |host|
+  config.vm.define "scm" do |host|
     host.vm.network :forwarded_port, guest: 80, host: 30080
   end
 
@@ -32,7 +31,7 @@ Vagrant.configure("2") do |config|
     else
       ansible.inventory_path = ENV['ANSIBLE_INVENTORY']
     end
-    ansible.limit = 'blog'
+    #ansible.limit = 'scm'
     if !ENV['ANSIBLE_TAG'].nil?
       ansible.tags = ENV['ANSIBLE_TAG']
     end
