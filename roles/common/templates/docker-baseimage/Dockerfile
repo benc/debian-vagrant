@@ -1,5 +1,5 @@
-FROM        ubuntu:12.04
-MAINTAINER  Ben Cochez, ben@cochezconsult.be
+FROM        debian:jessie
+MAINTAINER  Ben Cochez, ben@cochez.consulting
 
 # Base Docker image
 # =================
@@ -10,15 +10,12 @@ ENV         DEBIAN_FRONTEND noninteractive
 ENV         INITRD No
 
 RUN         echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90forceyes
-
-RUN         echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise main universe" > echo /etc/apt/sources.list
-RUN         echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main universe" >> echo /etc/apt/sources.list
 RUN         apt-get update
 
 # Fix some issues with APT packages.
 # See https://github.com/dotcloud/docker/issues/1024
-RUN         dpkg-divert --local --rename --add /sbin/initctl
-RUN         ln -sf /bin/true /sbin/initctl
+# RUN         dpkg-divert --local --rename --add /sbin/initctl
+# RUN         ln -sf /bin/true /sbin/initctl
 
 # Upgrade all packages
 RUN         echo "initscripts hold" | dpkg --set-selections
