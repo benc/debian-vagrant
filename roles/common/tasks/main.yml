@@ -1,12 +1,4 @@
 ---
-- name: Set Ubuntu mirrors
-  apt_repository: repo='{{ item }}' state=present
-  with_items:
-    - deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse
-    - deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse
-    - deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse
-    - deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse
-
 - name: Install necessities and nice-to-haves
   apt: pkg={{ item }} state=installed update_cache=yes
   with_items:
