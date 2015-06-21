@@ -23,7 +23,7 @@
     - solar-theme-ghost-master.zip
 
 - name: Build Docker image
-  command: docker build -q=true -t=benc/ghost -rm . chdir={{ ghost.build_dir }}
+  command: docker build --quiet=true --tag=benc/ghost --rm . chdir={{ ghost.build_dir }}
 
 - name: Cleanup temporary build dir
   file: path={{ ghost.build_dir }} state=absent
@@ -35,5 +35,5 @@
 
 - name: Start ghost instance
   # docker: name=ghost links=postgres:db ports=:80 detach=true image=benc/ghost
-  command: docker run -name ghost -link postgres:db -p 80:80 -d benc/ghost
+  command: docker run --name ghost --link postgres:db --publish 80:80 --detach benc/ghost
   when: "'No such image or container' in docker_inspect_ghost.stderr"
