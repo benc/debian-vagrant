@@ -6,20 +6,19 @@
   template: src={{ postgres.data_docker.template_dir }}/{{ item }} dest={{ postgres.data_docker.build_dir }}/{{ item }}
   with_items:
     - Dockerfile
-      
+
 - name: Data only container | Build Docker image
-  command: docker build -q=true -t=benc/postgres_data -rm . chdir={{ postgres.data_docker.build_dir }}
+  command: docker build --quiet=true --tag=benc/postgres_data --rm . chdir={{ postgres.data_docker.build_dir }}
 
 - name: Data only container | Cleanup temporary build dir
-  file: path={{ postgres.data_docker.build_dir }} state=absent  
-  
+  file: path={{ postgres.data_docker.build_dir }} state=absent
+
 - name: Data only container | Check if it is already running
   command: docker inspect postgres_data
   register: docker_inspect_postgres_data
   ignore_errors: yes
-  
+
 - name: Data only container | Start
   # docker: name=postgres_data detach=true image=benc/postgres_data
-  command: docker run -name postgres_data -v /data -d benc/postgres_data
+  command: docker run --name postgres_data --volume /data --detach benc/postgres_data
   when: "'No such image or container' in docker_inspect_postgres_data.stderr"
-  
