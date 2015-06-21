@@ -1,10 +1,4 @@
 ---
-- name: Install ansible module dependencies
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - python-pycurl
-    - python-pip
-
 - name: Set Ubuntu mirrors
   apt_repository: repo='{{ item }}' state=present
   with_items:
