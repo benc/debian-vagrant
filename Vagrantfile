@@ -2,7 +2,7 @@ require 'yaml'
 settings = YAML.load(IO.read('vagrant_secure_settings.yml'))
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "boxcutter/debian80"
+  config.vm.box = "dhoppe/debian-8.0.0-amd64-nocm"
   config.ssh.private_key_path = ["#{ENV['HOME']}/.ssh/id_rsa","#{ENV['HOME']}/.vagrant.d/insecure_private_key"]
 
   # Build blog platform
