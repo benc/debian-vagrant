@@ -1,4 +1,4 @@
-[webservers:children]
+[servers:children]
 blog
 
 [blog]
