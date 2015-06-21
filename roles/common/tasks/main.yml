@@ -15,6 +15,7 @@
     - curl
     - netcat
     - unzip
+    - apt-transport-https
 
 - name: Enable Textmate support
   get_url: url=https://raw.github.com/aurora/rmate/master/rmate dest=/usr/local/bin/rmate mode=0755
