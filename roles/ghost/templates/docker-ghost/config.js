@@ -3,7 +3,7 @@ var path = require('path'),
 
 config = {
   production: {
-        url: "http://www.cochez.io",
+        url: "http://heavyindustries.io",
         mail: {
             transport: "SMTP",
             host: "{{ mandrill.host }}",

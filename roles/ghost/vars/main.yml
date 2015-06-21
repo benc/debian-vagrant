@@ -1,5 +1,5 @@
 ---
-domain: www.cochez.io
+domain: heavyindustries.io
 ghost:
   template_dir: docker-ghost
   build_dir: /tmp/docker-ghost

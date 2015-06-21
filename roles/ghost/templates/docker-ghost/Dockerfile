@@ -5,7 +5,7 @@ MAINTAINER  Ben Cochez, ben@cochezconsult.be
 # =====
 
 # Add webapp configuration to nginx
-ADD         www.cochez.io.conf /etc/nginx/conf.d/www.cochez.io.conf
+ADD         heavyindustries.io.conf /etc/nginx/conf.d/heavyindustries.io.conf
 
 # Postgres native client
 # ======================
