@@ -1,4 +1,4 @@
 ---
-- hosts: webservers
+- hosts: servers
   roles:
-    - { role: common, tags: [ 'common' ] }
+    - role: common
