@@ -16,7 +16,10 @@
     - netcat
     - unzip
     - apt-transport-https
-    - python-pip
+    - python-setuptools
+
+- name: Install python pip
+  shell: easy_install pip creates=/usr/local/bin/pip
 
 - name: Enable Textmate support
   get_url: url=https://raw.github.com/aurora/rmate/master/rmate dest=/usr/local/bin/rmate mode=0755
