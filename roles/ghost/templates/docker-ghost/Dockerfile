@@ -1,5 +1,5 @@
 FROM        benc/passenger
-MAINTAINER  Ben Cochez, ben@cochezconsult.be
+MAINTAINER  Ben Cochez, ben@cochez.consulting
 
 # Nginx
 # =====
@@ -10,13 +10,12 @@ ADD         heavyindustries.io.conf /etc/nginx/conf.d/heavyindustries.io.conf
 # Postgres native client
 # ======================
 # Add apt repo
-RUN         apt-get install python-software-properties software-properties-common wget
-RUN         wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN         echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN         apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+RUN         echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 RUN         apt-get update
 
 # Install postgres library
-RUN         apt-get install build-essential libpq-dev postgresql-client-common postgresql-client-9.3
+RUN         apt-get install build-essential libpq-dev postgresql-client-common postgresql-client-9.4
 
 # Ghost
 # =====

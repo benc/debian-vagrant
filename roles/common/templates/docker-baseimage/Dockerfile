@@ -4,8 +4,8 @@ MAINTAINER  Ben Cochez, ben@cochez.consulting
 # Base Docker image
 # =================
 
-# Upgrade Ubuntu LTS
-# ------------------
+# Upgrade
+# -------
 ENV         DEBIAN_FRONTEND noninteractive
 ENV         INITRD No
 

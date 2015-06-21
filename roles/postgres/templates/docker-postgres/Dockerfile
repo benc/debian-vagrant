@@ -1,5 +1,5 @@
 FROM        benc/baseimage
-MAINTAINER  Ben Cochez, ben@cochezconsult.be
+MAINTAINER  Ben Cochez, ben@cochez.consulting
 
 # Install
 # =======
@@ -13,17 +13,8 @@ RUN         apt-get update
 # prevent apt from starting postgres right after the installation
 RUN         echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d; chmod +x /usr/sbin/policy-rc.d
 
-# https://bugs.launchpad.net/ubuntu/+source/lxc/+bug/813398
-RUN         apt-get -qy install language-pack-en
-
-ENV         LANGUAGE en_US.UTF-8
-ENV         LANG en_US.UTF-8
-ENV         LC_ALL en_US.UTF-8
-RUN         locale-gen en_US.UTF-8
-RUN         dpkg-reconfigure locales
-
 # install
-RUN         LC_ALL=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive apt-get install postgresql-9.3 postgresql-contrib-9.3
+RUN         LC_ALL=en_US.UTF-8 DEBIAN_FRONTEND=noninteractive apt-get install postgresql-9.4 postgresql-contrib-9.4
 
 # Configure
 # =========
