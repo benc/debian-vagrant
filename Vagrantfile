@@ -3,9 +3,7 @@ settings = YAML.load(IO.read('vagrant_secure_settings.yml'))
 
 Vagrant.configure("2") do |config|
   config.vm.box = "dhoppe/debian-8.0.0-amd64-nocm"
-  config.ssh.private_key_path = ["#{ENV['HOME']}/.ssh/id_rsa","#{ENV['HOME']}/.vagrant.d/insecure_private_key"]
 
-  # Build blog platform
   config.vm.provider :vmware_fusion do |provider, override|
     provider.vmx["memsize"] = "1024"
     provider.vmx["mks.enable3d"] = "FALSE"
@@ -16,11 +14,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "blog" do |host|
     host.vm.network :forwarded_port, guest: 80, host: 30080
   end
-
-  config.vm.provision :shell, inline: <<-SCRIPT
-    printf "%s\n" "#{File.read("#{ENV['HOME']}/.ssh/id_rsa.pub")}" > /home/vagrant/.ssh/authorized_keys
-    chown -R vagrant:vagrant /home/vagrant/.ssh
-  SCRIPT
 
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "site.yml"
