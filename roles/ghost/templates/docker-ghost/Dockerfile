@@ -1,8 +1,6 @@
 FROM        benc/passenger
 MAINTAINER  Ben Cochez, ben@cochez.consulting
 
-RUN         apt-get install python-software-properties software-properties-common
-
 # Nginx
 # =====
 
