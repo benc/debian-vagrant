@@ -15,12 +15,7 @@
 - name: Copy Ghost and related files
   copy: src={{ item }} dest={{ ghost.build_dir }}/{{ item }}
   with_items:
-    - ghost-0.4.1.zip
-    - N-Coded.zip
-    - Uno-master.zip
-    - Vapor-master.zip
-    - ghostium-master.zip
-    - solar-theme-ghost-master.zip
+    - Ghost-0.6.4.zip
 
 - name: Build Docker image
   command: docker build --tag=benc/ghost --rm . chdir={{ ghost.build_dir }}

@@ -5,7 +5,7 @@ MAINTAINER  Ben Cochez, ben@cochez.consulting
 # =======
 
 # Install node
-RUN         apt-get install nodejs npm
+RUN         apt-get install nodejs nodejs-legacy npm
 
 # Passenger
 # =========

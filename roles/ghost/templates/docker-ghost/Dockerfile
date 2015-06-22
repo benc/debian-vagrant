@@ -1,6 +1,8 @@
 FROM        benc/passenger
 MAINTAINER  Ben Cochez, ben@cochez.consulting
 
+RUN         apt-get install python-software-properties software-properties-common
+
 # Nginx
 # =====
 
@@ -21,29 +23,14 @@ RUN         apt-get install build-essential libpq-dev postgresql-client-common p
 # =====
 # Add files & unzip
 RUN         mkdir -p /www
-ADD         ghost-0.4.1.zip /www/ghost.zip
+ADD         Ghost-0.6.4.zip /www/ghost.zip
 RUN         cd /www && unzip -ou ghost.zip && rm -f ghost.zip
-
-ADD         N-Coded.zip /www/content/themes/N-Coded.zip
-RUN         cd /www/content/themes/ && unzip -ou N-Coded.zip && rm -f N-Coded.zip
-
-ADD         Uno-master.zip /www/content/themes/Uno-master.zip
-RUN         cd /www/content/themes/ && unzip -ou Uno-master.zip && rm -f Uno-master.zip
-
-ADD         Vapor-master.zip /www/content/themes/Vapor-master.zip
-RUN         cd /www/content/themes/ && unzip -ou Vapor-master.zip && rm -f Vapor-master.zip
-
-ADD         ghostium-master.zip /www/content/themes/ghostium-master.zip
-RUN         cd /www/content/themes/ && unzip -ou ghostium-master.zip && rm -f ghostium-master.zip
-
-ADD         solar-theme-ghost-master.zip /www/content/themes/solar-theme-ghost-master.zip
-RUN         cd /www/content/themes/ && unzip -ou solar-theme-ghost-master.zip && rm -f solar-theme-ghost-master.zip
 
 # Configure
 ADD         config.js /www/config.js
 
 # Install dependencies
-RUN         cd /www && npm cache clear && npm install --production && npm install pg
+RUN         cd /www && npm cache clear && npm install --production --unsafe-perm && npm install pg
 
 # Transfer authority to www-data
 RUN         chown -R www-data:www-data /www
