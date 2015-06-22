@@ -23,7 +23,7 @@
     - solar-theme-ghost-master.zip
 
 - name: Build Docker image
-  command: docker build --quiet=true --tag=benc/ghost --rm . chdir={{ ghost.build_dir }}
+  command: docker build --tag=benc/ghost --rm . chdir={{ ghost.build_dir }}
 
 - name: Cleanup temporary build dir
   file: path={{ ghost.build_dir }} state=absent

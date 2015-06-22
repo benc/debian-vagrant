@@ -32,7 +32,7 @@
     - supervisord.conf
 
 - name: Docker | Build docker image
-  command: docker build --quiet=true --tag=benc/baseimage --rm . chdir={{ docker_base.build_dir }}
+  command: docker build --tag=benc/baseimage --rm . chdir={{ docker_base.build_dir }}
 
 - name: Docker | Cleanup temporary build dir
   file: path={{ docker_base.build_dir }} state=absent

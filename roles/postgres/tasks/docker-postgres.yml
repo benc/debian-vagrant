@@ -12,7 +12,7 @@
     - start_postgres.sh
 
 - name: Database | Build Docker image
-  command: docker build --quiet=true --tag=benc/postgres --rm . chdir={{ postgres.docker.build_dir }}
+  command: docker build --tag=benc/postgres --rm . chdir={{ postgres.docker.build_dir }}
 
 - name: Database | Cleanup temporary build dir
   file: path={{ postgres.docker.build_dir }} state=absent

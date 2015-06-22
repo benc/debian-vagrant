@@ -14,7 +14,7 @@
   file: path={{ mongodb.data_dir }} state=directory
 
 - name: Build docker image
-  command: docker build --quiet=true --tag=benc/mongodb --rm . chdir={{ mongodb.build_dir }}
+  command: docker build --tag=benc/mongodb --rm . chdir={{ mongodb.build_dir }}
 
 - name: Cleanup temporary build dir
   file: path={{ mongodb.build_dir }} state=absent
