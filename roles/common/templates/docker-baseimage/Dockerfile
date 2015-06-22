@@ -35,23 +35,6 @@ RUN         apt-get install curl unzip
 # vim
 RUN         apt-get install vim
 
-# OpenSSH
-# -------
-RUN         adduser --disabled-password --gecos "" {{ docker.user }}
-RUN         usermod -a -G sudo docker -p {{ docker.password }}
-
-RUN         mkdir -p /home/docker/.ssh
-
-RUN         apt-get install openssh-server
-RUN         mkdir -p /var/run/sshd
-
-# Secure the ssh installation
-RUN         sed -i -e "s/#PasswordAuthentication yes/PasswordAuthentication no/g" /etc/ssh/sshd_config
-RUN         sed -i -e "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
-
-ADD         authorized_keys /home/docker/.ssh/
-RUN         chown -R docker:docker /home/docker/.ssh && chmod 0700 /home/docker/.ssh && chmod 0600 /home/docker/.ssh/*
-
 # Supervisor
 # ----------
 RUN         apt-get install supervisor
